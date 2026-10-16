@@ -1,0 +1,36 @@
+{
+  "agent": "gate-auto",
+  "checks": [
+    {
+      "id": "design_gate.open_questions_resolved",
+      "message": "",
+      "name": "Open questions resolved",
+      "passed": true
+    },
+    {
+      "id": "design_gate.requirement_has_design_refs",
+      "message": "",
+      "name": "Every requirement has design refs",
+      "passed": true
+    },
+    {
+      "id": "design_gate.source_hash_matches",
+      "message": "",
+      "name": "Source snapshot hash matches bound spec",
+      "passed": true
+    },
+    {
+      "id": "design_gate.launch_blocking_risks_mitigated",
+      "message": "",
+      "name": "Launch-blocking risks have mitigation",
+      "passed": true
+    }
+  ],
+  "completed_at": "2026-08-30T10:34:11.277516+00:00",
+  "node_id": "design_gate_node",
+  "node_type": "gate",
+  "run_id": "dahua-client-mvp-v1",
+  "status": "success",
+  "summary": "design_gate_node passed design gate checks",
+  "verdict": "PASS"
+}

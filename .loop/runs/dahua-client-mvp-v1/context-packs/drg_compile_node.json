@@ -1,0 +1,130 @@
+{
+  "bound_spec": {
+    "content_hash": "sha256:0ba6f76a9a1cc42583074f5f6e3487848c21585c7b3cd86c9db8908bd0022ee2",
+    "snapshot_uri": "specs/dahua-client/published/dahua-client-mvp/v1/spec-snapshot.json",
+    "spec_id": "dahua-client-mvp",
+    "version": 1
+  },
+  "contract": {
+    "agent": "gate-auto",
+    "allowed_tools": [
+      "read_json",
+      "write_json",
+      "shell_check",
+      "artifact_register"
+    ],
+    "artifact_types": [
+      "conformance-report",
+      "gate-result",
+      "node-result"
+    ],
+    "node_types": [
+      "compiler",
+      "conformance",
+      "gate",
+      "governance",
+      "plan_gate"
+    ],
+    "read_paths": [
+      "specs/**",
+      ".loop/runs/dahua-client-mvp-v1/**",
+      ".loop/memory/**"
+    ],
+    "write_paths": [
+      ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+      ".loop/runs/dahua-client-mvp-v1/*.json"
+    ]
+  },
+  "dependency_refs": [
+    {
+      "description": "Execution result for spec_binding_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/spec_binding_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for planning_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/planning_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Gate result for plan_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/plan_gate_node.json",
+      "type": "gate-result"
+    },
+    {
+      "description": "Execution result for architecture_impact_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_impact_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Gate result for architecture_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_gate_node.json",
+      "type": "gate-result"
+    },
+    {
+      "description": "Design spec result for design_spec_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_spec_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Design gate result for design_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_gate_node.json",
+      "type": "gate-result"
+    }
+  ],
+  "input_refs": {
+    "completed_artifacts": [
+      {
+        "description": "Execution result for spec_binding_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/spec_binding_node.json",
+        "type": "node-result"
+      },
+      {
+        "description": "Execution result for planning_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/planning_node.json",
+        "type": "node-result"
+      },
+      {
+        "description": "Gate result for plan_gate_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/plan_gate_node.json",
+        "type": "gate-result"
+      },
+      {
+        "description": "Execution result for architecture_impact_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_impact_node.json",
+        "type": "node-result"
+      },
+      {
+        "description": "Gate result for architecture_gate_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_gate_node.json",
+        "type": "gate-result"
+      },
+      {
+        "description": "Design spec result for design_spec_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_spec_node.json",
+        "type": "node-result"
+      },
+      {
+        "description": "Design gate result for design_gate_node",
+        "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_gate_node.json",
+        "type": "gate-result"
+      }
+    ],
+    "execution_graph": ".loop/runs/dahua-client-mvp-v1/execution-graph.json",
+    "execution_plan": ".loop/runs/dahua-client-mvp-v1/execution-plan.json",
+    "run_state": ".loop/runs/dahua-client-mvp-v1/run-state.json",
+    "spec_snapshot": "specs/dahua-client/published/dahua-client-mvp/v1/spec-snapshot.json",
+    "tool_contract_report": ".loop/runs/dahua-client-mvp-v1/tool-contract-report.json"
+  },
+  "node": {
+    "acceptance_criteria": [],
+    "agent": "gate-auto",
+    "id": "drg_compile_node",
+    "label": "DRG Compile",
+    "requirements": [],
+    "type": "compiler",
+    "work_package_id": null
+  },
+  "run_id": "dahua-client-mvp-v1",
+  "schema_version": "1.0"
+}

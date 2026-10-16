@@ -1,0 +1,528 @@
+{
+  "api_contracts": [],
+  "approval": {
+    "approved_at": null,
+    "approved_by": null,
+    "content_hash": null,
+    "status": "PENDING"
+  },
+  "architecture": {
+    "affected_modules": [],
+    "component_boundaries": [
+      {
+        "name": "Component-REQ-INIT-001",
+        "requirements": [
+          "REQ-INIT-001"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 调用 CLIENT_Init 完成 SDK 初始化并注册断线重连回调 CLIENT_SetAutoReconnect"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-INIT-002",
+        "requirements": [
+          "REQ-INIT-002"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 调用 CLIENT_LoginWithHighLevelSecurity 登录设备并进入主界面"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-INIT-003",
+        "requirements": [
+          "REQ-INIT-003"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 在登录对话框显示错误原因且不进入主界面"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-INIT-004",
+        "requirements": [
+          "REQ-INIT-004"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 调用 CLIENT_Logout 注销登录并调用 CLIENT_Cleanup 释放 SDK 资源"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-INIT-005",
+        "requirements": [
+          "REQ-INIT-005"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 在 UI 上展示 Spin loading 并禁用登录按钮防止重复提交"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-TREE-001",
+        "requirements": [
+          "REQ-TREE-001"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 在侧边栏以 QTreeView 展示设备-通道树形结构"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-TREE-002",
+        "requirements": [
+          "REQ-TREE-002"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 调用 NetSDK 通道查询接口获取通道列表并填充到 QStandardItemModel"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-TREE-003",
+        "requirements": [
+          "REQ-TREE-003"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 高亮选中该节点并展示该通道详情信息"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-TREE-004",
+        "requirements": [
+          "REQ-TREE-004"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 在预览区启动该通道的实时预览"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-TREE-005",
+        "requirements": [
+          "REQ-TREE-005"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 应用 huaDesign QSS 样式，选中节点背景 #E8F6FF，文字 #445160"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-PV-001",
+        "requirements": [
+          "REQ-PV-001"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 调用 CLIENT_RealPlayEx 启动该通道实时预览"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-PV-002",
+        "requirements": [
+          "REQ-PV-002"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 通过 CLIENT_SetRealDataCallBackEx 接收码流并交给 PlaySDK 解码渲染"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-PV-003",
+        "requirements": [
+          "REQ-PV-003"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 调用 CLIENT_StopRealPlay 停止预览并释放句柄"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-PV-004",
+        "requirements": [
+          "REQ-PV-004"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 在预览区按所选布局分屏显示多个通道"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-PV-005",
+        "requirements": [
+          "REQ-PV-005"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 通过 Qt 信号槽机制将回调转发到主线程处理避免线程安全问题"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-NFR-001",
+        "requirements": [
+          "REQ-NFR-001"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 使用 Qt 5.14.0 Widget + CMake 3.16+ + C++17 + MSVC 2017 x64 编译"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-NFR-002",
+        "requirements": [
+          "REQ-NFR-002"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 复用 dahua-direction/NetSDK 的 Include/Lib/Bin 资产并按 V3.5.1 手册规范调用"
+        ],
+        "type": "module"
+      },
+      {
+        "name": "Component-REQ-NFR-003",
+        "requirements": [
+          "REQ-NFR-003"
+        ],
+        "responsibilities": [
+          "THE SYSTEM SHALL 遵循 huaDesign 设计契约（单一主色 #1C79F4 + 4n 网格 + tabular-nums）"
+        ],
+        "type": "module"
+      }
+    ],
+    "summary": "auto-generated minimal design spec (deterministic fallback)"
+  },
+  "data_model": [],
+  "design_id": "design-dahua-client-mvp-v1",
+  "error_handling": [],
+  "open_questions": [],
+  "project": "dahua-client",
+  "risks": [],
+  "schema_version": "1.0",
+  "source_snapshot": {
+    "content_hash": "sha256:0ba6f76a9a1cc42583074f5f6e3487848c21585c7b3cd86c9db8908bd0022ee2",
+    "spec_id": "dahua-client-mvp",
+    "version": 1
+  },
+  "spec_id": "dahua-client-mvp",
+  "spec_version": 1,
+  "state_transitions": [],
+  "status": "DRAFT",
+  "test_strategy": [
+    {
+      "acceptance_id": "ACC-INIT-001",
+      "approach": "SDK 初始化返回 TRUE 且重连回调已注册",
+      "evidence_required": [
+        "unit-test-report",
+        "init-artifact"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-INIT-002",
+      "approach": "用户输入正确凭证可登录并进入主界面",
+      "evidence_required": [
+        "login-artifact",
+        "demo-video",
+        "login-success-log"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-INIT-003",
+      "approach": "错误凭证登录时显示错误原因且不进入主界面",
+      "evidence_required": [
+        "error-handling-screenshot",
+        "error-log"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-INIT-004",
+      "approach": "应用退出时调用 CLIENT_Logout 和 CLIENT_Cleanup",
+      "evidence_required": [
+        "cleanup-test-report"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-INIT-005",
+      "approach": "登录请求期间 UI 展示 loading 并禁用登录按钮",
+      "evidence_required": [
+        "code-review-report",
+        "loading-state-screenshot"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-TREE-001",
+      "approach": "登录成功后侧边栏展示设备-通道 QTreeView",
+      "evidence_required": [
+        "ui-screenshot"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-TREE-002",
+      "approach": "通道列表查询并填充到 QStandardItemModel",
+      "evidence_required": [
+        "channel-load-test"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-TREE-003",
+      "approach": "用户单击树节点高亮并展示详情",
+      "evidence_required": [
+        "ui-screenshot"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-TREE-004",
+      "approach": "用户双击通道节点启动预览",
+      "evidence_required": [
+        "demo-video"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-TREE-005",
+      "approach": "设备树应用 huaDesign QSS 样式",
+      "evidence_required": [
+        "ui-review-report"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-PV-001",
+      "approach": "CLIENT_RealPlayEx 启动预览返回非 0 句柄",
+      "evidence_required": [
+        "preview-start-test"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-PV-002",
+      "approach": "码流回调转发主线程并解码渲染",
+      "evidence_required": [
+        "demo-video",
+        "preview-log"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-PV-003",
+      "approach": "CLIENT_StopRealPlay 停止预览释放句柄",
+      "evidence_required": [
+        "preview-stop-test"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-PV-004",
+      "approach": "1/4/9 分屏布局多通道预览",
+      "evidence_required": [
+        "multi-screen-video"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-PV-005",
+      "approach": "回调线程安全通过信号槽转发",
+      "evidence_required": [
+        "thread-safety-review"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-NFR-001",
+      "approach": "CMake 构建成功生成可执行文件",
+      "evidence_required": [
+        "build-log"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-NFR-002",
+      "approach": "NetSDK 头文件/库文件/DLL 集成配置正确",
+      "evidence_required": [
+        "cmake-config-review"
+      ],
+      "test_level": "component"
+    },
+    {
+      "acceptance_id": "ACC-NFR-003",
+      "approach": "huaDesign QSS 样式资源正确加载并应用",
+      "evidence_required": [
+        "qss-review"
+      ],
+      "test_level": "component"
+    }
+  ],
+  "traceability": [
+    {
+      "acceptance_ids": [
+        "ACC-INIT-001"
+      ],
+      "design_refs": [
+        "Component-REQ-INIT-001"
+      ],
+      "requirement_id": "REQ-INIT-001"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-INIT-002"
+      ],
+      "design_refs": [
+        "Component-REQ-INIT-002"
+      ],
+      "requirement_id": "REQ-INIT-002"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-INIT-003"
+      ],
+      "design_refs": [
+        "Component-REQ-INIT-003"
+      ],
+      "requirement_id": "REQ-INIT-003"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-INIT-004"
+      ],
+      "design_refs": [
+        "Component-REQ-INIT-004"
+      ],
+      "requirement_id": "REQ-INIT-004"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-INIT-005"
+      ],
+      "design_refs": [
+        "Component-REQ-INIT-005"
+      ],
+      "requirement_id": "REQ-INIT-005"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-TREE-001"
+      ],
+      "design_refs": [
+        "Component-REQ-TREE-001"
+      ],
+      "requirement_id": "REQ-TREE-001"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-TREE-002"
+      ],
+      "design_refs": [
+        "Component-REQ-TREE-002"
+      ],
+      "requirement_id": "REQ-TREE-002"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-TREE-003"
+      ],
+      "design_refs": [
+        "Component-REQ-TREE-003"
+      ],
+      "requirement_id": "REQ-TREE-003"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-TREE-004"
+      ],
+      "design_refs": [
+        "Component-REQ-TREE-004"
+      ],
+      "requirement_id": "REQ-TREE-004"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-TREE-005"
+      ],
+      "design_refs": [
+        "Component-REQ-TREE-005"
+      ],
+      "requirement_id": "REQ-TREE-005"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-PV-001"
+      ],
+      "design_refs": [
+        "Component-REQ-PV-001"
+      ],
+      "requirement_id": "REQ-PV-001"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-PV-002"
+      ],
+      "design_refs": [
+        "Component-REQ-PV-002"
+      ],
+      "requirement_id": "REQ-PV-002"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-PV-003"
+      ],
+      "design_refs": [
+        "Component-REQ-PV-003"
+      ],
+      "requirement_id": "REQ-PV-003"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-PV-004"
+      ],
+      "design_refs": [
+        "Component-REQ-PV-004"
+      ],
+      "requirement_id": "REQ-PV-004"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-PV-005"
+      ],
+      "design_refs": [
+        "Component-REQ-PV-005"
+      ],
+      "requirement_id": "REQ-PV-005"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-NFR-001"
+      ],
+      "design_refs": [
+        "Component-REQ-NFR-001"
+      ],
+      "requirement_id": "REQ-NFR-001"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-NFR-002"
+      ],
+      "design_refs": [
+        "Component-REQ-NFR-002"
+      ],
+      "requirement_id": "REQ-NFR-002"
+    },
+    {
+      "acceptance_ids": [
+        "ACC-NFR-003"
+      ],
+      "design_refs": [
+        "Component-REQ-NFR-003"
+      ],
+      "requirement_id": "REQ-NFR-003"
+    }
+  ],
+  "ui_contract": {}
+}

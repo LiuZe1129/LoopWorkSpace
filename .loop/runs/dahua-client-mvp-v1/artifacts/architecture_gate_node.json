@@ -1,0 +1,11 @@
+{
+  "agent": "gate-auto",
+  "checks": [],
+  "completed_at": "2026-08-30T10:34:11.201596+00:00",
+  "node_id": "architecture_gate_node",
+  "node_type": "gate",
+  "run_id": "dahua-client-mvp-v1",
+  "status": "success",
+  "summary": "architecture_gate_node passed gate checks",
+  "verdict": "PASS"
+}

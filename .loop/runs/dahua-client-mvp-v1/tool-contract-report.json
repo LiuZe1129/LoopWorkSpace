@@ -1,0 +1,1741 @@
+{
+  "issues": [],
+  "nodes": [
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "spec_binding_node",
+      "node_type": "governance",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "orchestrator-llm",
+      "contract": {
+        "agent": "orchestrator-llm",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "llm_plan"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "governance"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/context.md",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "planning_node",
+      "node_type": "governance",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "plan_gate_node",
+      "node_type": "plan_gate",
+      "required_artifact_types": [
+        "gate-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "architect-agent",
+      "contract": {
+        "agent": "architect-agent",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "llm_architecture"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "architecture"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "shared/**",
+          "doc/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          "shared/**"
+        ]
+      },
+      "node_id": "architecture_impact_node",
+      "node_type": "architecture",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "architecture_gate_node",
+      "node_type": "gate",
+      "required_artifact_types": [
+        "gate-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "architect-agent",
+      "contract": {
+        "agent": "architect-agent",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "llm_architecture"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "architecture"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "shared/**",
+          "doc/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          "shared/**"
+        ]
+      },
+      "node_id": "design_spec_node",
+      "node_type": "architecture",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "design_gate_node",
+      "node_type": "gate",
+      "required_artifact_types": [
+        "gate-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "drg_compile_node",
+      "node_type": "compiler",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "orchestrator-llm",
+      "contract": {
+        "agent": "orchestrator-llm",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "llm_plan"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "governance"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/context.md",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "implementation_drg_node",
+      "node_type": "governance",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-001_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-001_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-002_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-002_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-003_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-003_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-004_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-004_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-005_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-init-005_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-001_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-001_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-002_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-002_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-003_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-003_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-004_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-004_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-005_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-tree-005_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-001_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-001_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-002_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-002_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-003_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-003_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-004_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-004_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-005_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-pv-005_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-nfr-001_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-nfr-001_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-nfr-002_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-nfr-002_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "client-dev",
+      "contract": {
+        "agent": "client-dev",
+        "allowed_tools": [
+          "read_json",
+          "code_edit",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "node-result"
+        ],
+        "node_types": [
+          "implementation"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          "projects/**",
+          "shared/**",
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-nfr-003_implement",
+      "node_type": "implementation",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "test-agent",
+      "contract": {
+        "agent": "test-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_test",
+          "write_json"
+        ],
+        "artifact_types": [
+          "test-result"
+        ],
+        "node_types": [
+          "test"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "wp-req-nfr-003_test",
+      "node_type": "test",
+      "required_artifact_types": [
+        "test-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "final_gate_node",
+      "node_type": "gate",
+      "required_artifact_types": [
+        "gate-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "conformance_node",
+      "node_type": "conformance",
+      "required_artifact_types": [
+        "conformance-report"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "review-agent",
+      "contract": {
+        "agent": "review-agent",
+        "allowed_tools": [
+          "read_json",
+          "llm_review",
+          "write_json"
+        ],
+        "artifact_types": [
+          "review-result"
+        ],
+        "node_types": [
+          "review"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "delivery_review_node",
+      "node_type": "review",
+      "required_artifact_types": [
+        "review-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "devops-agent",
+      "contract": {
+        "agent": "devops-agent",
+        "allowed_tools": [
+          "read_json",
+          "shell_deploy",
+          "write_json"
+        ],
+        "artifact_types": [
+          "deploy-result"
+        ],
+        "node_types": [
+          "deploy"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          "projects/**",
+          "shared/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**"
+        ]
+      },
+      "node_id": "deploy_node",
+      "node_type": "deploy",
+      "required_artifact_types": [
+        "deploy-result"
+      ],
+      "status": "BOUND"
+    },
+    {
+      "agent": "gate-auto",
+      "contract": {
+        "agent": "gate-auto",
+        "allowed_tools": [
+          "read_json",
+          "write_json",
+          "shell_check",
+          "artifact_register"
+        ],
+        "artifact_types": [
+          "conformance-report",
+          "gate-result",
+          "node-result"
+        ],
+        "node_types": [
+          "compiler",
+          "conformance",
+          "gate",
+          "governance",
+          "plan_gate"
+        ],
+        "read_paths": [
+          "specs/**",
+          ".loop/runs/dahua-client-mvp-v1/**",
+          ".loop/memory/**"
+        ],
+        "write_paths": [
+          ".loop/runs/dahua-client-mvp-v1/artifacts/**",
+          ".loop/runs/dahua-client-mvp-v1/*.json"
+        ]
+      },
+      "node_id": "done_node",
+      "node_type": "governance",
+      "required_artifact_types": [
+        "node-result"
+      ],
+      "status": "BOUND"
+    }
+  ],
+  "overall": "PASS",
+  "run_id": "dahua-client-mvp-v1",
+  "schema_version": "1.0"
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.1",
+  "project": "dahua-client",
+  "product_type": "qt",
+  "target_users": [
+    {
+      "role": "operator",
+      "description": "运维操作员，登录大华设备并预览实时视频"
+    },
+    {
+      "role": "admin",
+      "description": "系统管理员，配置设备与权限"
+    }
+  ],
+  "core_workflows": [
+    {
+      "id": "wf-login",
+      "name": "设备登录",
+      "steps": [
+        "应用启动调用 CLIENT_Init 初始化 NetSDK",
+        "用户输入设备 IP/端口/账号/密码",
+        "调用 CLIENT_LoginWithHighLevelSecurity 登录",
+        "登录成功进入主界面，加载设备树"
+      ]
+    },
+    {
+      "id": "wf-preview",
+      "name": "实时预览",
+      "steps": [
+        "用户在设备树双击通道节点",
+        "调用 CLIENT_RealPlayEx 启动预览",
+        "CLIENT_SetRealDataCallBackEx 接收码流",
+        "PlaySDK 解码并渲染到窗口",
+        "用户关闭预览调用 CLIENT_StopRealPlay 释放"
+      ]
+    },
+    {
+      "id": "wf-cleanup",
+      "name": "资源释放",
+      "steps": [
+        "应用退出触发清理",
+        "调用 CLIENT_Logout 注销设备登录",
+        "调用 CLIENT_Cleanup 释放 SDK 资源"
+      ]
+    }
+  ],
+  "constraints": [
+    "Qt 5.14.0 Widget（非 QML 主路线，QSS 主样式）",
+    "CMake 3.16+，禁用 qmake",
+    "C++17，MSVC 2017 x64 编译",
+    "大华 NetSDK V3.5.1（Win64），默认端口 TCP 37777",
+    "huaDesign 设计契约：单一主色 #1C79F4 + 4n 网格 + tabular-nums",
+    "NetSDK 回调中禁止调用 SDK 接口（需信号转发到 Qt 主线程）"
+  ],
+  "glossary": [
+    {
+      "term": "NetSDK",
+      "definition": "大华股份私有协议 SDK，提供设备登录/预览/回放/云台等接口"
+    },
+    {
+      "term": "PlaySDK",
+      "definition": "大华码流解码播放 SDK，配合 NetSDK 完成实时预览渲染"
+    },
+    {
+      "term": "huaDesign",
+      "definition": "大华股份企业级跨端设计系统，覆盖 Web/PC/移动 5 端，单一主色 #1C79F4 + 4n 网格"
+    },
+    {
+      "term": "EARS",
+      "definition": "Easy Approach to Requirements Syntax，WHEN/IF/WHILE + THE SYSTEM SHALL 风格"
+    },
+    {
+      "term": "GWT",
+      "definition": "Given/When/Then，BDD 验收场景表达"
+    }
+  ]
+}

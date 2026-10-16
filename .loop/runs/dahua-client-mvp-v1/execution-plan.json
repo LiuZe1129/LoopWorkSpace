@@ -1,0 +1,641 @@
+{
+  "acceptance_coverage": [
+    {
+      "acceptance_id": "ACC-INIT-001",
+      "verification": "test",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "acceptance_id": "ACC-INIT-002",
+      "verification": "test",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "acceptance_id": "ACC-INIT-003",
+      "verification": "test",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "acceptance_id": "ACC-INIT-004",
+      "verification": "test",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "acceptance_id": "ACC-INIT-005",
+      "verification": "test",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "acceptance_id": "ACC-TREE-001",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "acceptance_id": "ACC-TREE-002",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "acceptance_id": "ACC-TREE-003",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "acceptance_id": "ACC-TREE-004",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "acceptance_id": "ACC-TREE-005",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "acceptance_id": "ACC-PV-001",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "acceptance_id": "ACC-PV-002",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "acceptance_id": "ACC-PV-003",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "acceptance_id": "ACC-PV-004",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "acceptance_id": "ACC-PV-005",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "acceptance_id": "ACC-NFR-001",
+      "verification": "test",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "acceptance_id": "ACC-NFR-002",
+      "verification": "test",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "acceptance_id": "ACC-NFR-003",
+      "verification": "test",
+      "work_package_id": "wp-req-nfr-003"
+    }
+  ],
+  "agent_hints": [
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "agent": "client-dev",
+      "work_package_id": "wp-req-nfr-003"
+    }
+  ],
+  "depends_on": [],
+  "environment_requirements": [
+    {
+      "name": "dahua-netsdk",
+      "path": "dahua-direction/NetSDK",
+      "type": "binary",
+      "version": "3.5.1"
+    },
+    {
+      "name": "dahua-playsdk",
+      "path": "dahua-direction/PlaySDK",
+      "type": "binary",
+      "version": "latest"
+    },
+    {
+      "name": "huadesign-ui",
+      "path": "dahua-direction/UI",
+      "type": "design-contract",
+      "version": "1.2.11-beta.1"
+    },
+    {
+      "name": "qt",
+      "type": "framework",
+      "version": "5.14.0"
+    },
+    {
+      "name": "msvc",
+      "type": "compiler",
+      "version": "2017"
+    }
+  ],
+  "requirement_coverage": [
+    {
+      "requirement_id": "REQ-INIT-001",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "requirement_id": "REQ-INIT-002",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "requirement_id": "REQ-INIT-003",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "requirement_id": "REQ-INIT-004",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "requirement_id": "REQ-INIT-005",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "requirement_id": "REQ-TREE-001",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "requirement_id": "REQ-TREE-002",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "requirement_id": "REQ-TREE-003",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "requirement_id": "REQ-TREE-004",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "requirement_id": "REQ-TREE-005",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "requirement_id": "REQ-PV-001",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "requirement_id": "REQ-PV-002",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "requirement_id": "REQ-PV-003",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "requirement_id": "REQ-PV-004",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "requirement_id": "REQ-PV-005",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "requirement_id": "REQ-NFR-001",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "requirement_id": "REQ-NFR-002",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "requirement_id": "REQ-NFR-003",
+      "work_package_id": "wp-req-nfr-003"
+    }
+  ],
+  "risk_tags": [],
+  "run_id": "dahua-client-mvp-v1",
+  "schema_version": "1.0",
+  "spec_id": "dahua-client-mvp",
+  "spec_version": 1,
+  "template_id": "qt-feature-v1",
+  "work_packages": [
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-001"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-init-001",
+      "implementation_focus": "THE SYSTEM SHALL 调用 CLIENT_Init 完成 SDK 初始化并注册断线重连回调 CLIENT_SetAutoReconnect",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-INIT-001"
+      ],
+      "tags": [
+        "sdk",
+        "init"
+      ],
+      "title": "Implement REQ-INIT-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-002"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-init-002",
+      "implementation_focus": "THE SYSTEM SHALL 调用 CLIENT_LoginWithHighLevelSecurity 登录设备并进入主界面",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-INIT-002"
+      ],
+      "tags": [
+        "login",
+        "ui"
+      ],
+      "title": "Implement REQ-INIT-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-003"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-init-003",
+      "implementation_focus": "THE SYSTEM SHALL 在登录对话框显示错误原因且不进入主界面",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-INIT-003"
+      ],
+      "tags": [
+        "error-handling",
+        "ui"
+      ],
+      "title": "Implement REQ-INIT-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-004"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-init-004",
+      "implementation_focus": "THE SYSTEM SHALL 调用 CLIENT_Logout 注销登录并调用 CLIENT_Cleanup 释放 SDK 资源",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-INIT-004"
+      ],
+      "tags": [
+        "cleanup",
+        "sdk"
+      ],
+      "title": "Implement REQ-INIT-004"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-005"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-init-005",
+      "implementation_focus": "THE SYSTEM SHALL 在 UI 上展示 Spin loading 并禁用登录按钮防止重复提交",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "SHOULD",
+      "requirement_type": "non_functional",
+      "requirements": [
+        "REQ-INIT-005"
+      ],
+      "tags": [
+        "async-ui",
+        "ux"
+      ],
+      "title": "Implement REQ-INIT-005"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-001"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-tree-001",
+      "implementation_focus": "THE SYSTEM SHALL 在侧边栏以 QTreeView 展示设备-通道树形结构",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-TREE-001"
+      ],
+      "tags": [
+        "ui",
+        "tree"
+      ],
+      "title": "Implement REQ-TREE-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-002"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-tree-002",
+      "implementation_focus": "THE SYSTEM SHALL 调用 NetSDK 通道查询接口获取通道列表并填充到 QStandardItemModel",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-TREE-002"
+      ],
+      "tags": [
+        "data",
+        "tree"
+      ],
+      "title": "Implement REQ-TREE-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-003"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-tree-003",
+      "implementation_focus": "THE SYSTEM SHALL 高亮选中该节点并展示该通道详情信息",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-TREE-003"
+      ],
+      "tags": [
+        "ui",
+        "interaction"
+      ],
+      "title": "Implement REQ-TREE-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-004"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-tree-004",
+      "implementation_focus": "THE SYSTEM SHALL 在预览区启动该通道的实时预览",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "SHOULD",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-TREE-004"
+      ],
+      "tags": [
+        "ui",
+        "preview-trigger"
+      ],
+      "title": "Implement REQ-TREE-004"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-005"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-tree-005",
+      "implementation_focus": "THE SYSTEM SHALL 应用 huaDesign QSS 样式，选中节点背景 #E8F6FF，文字 #445160",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "ui",
+      "requirements": [
+        "REQ-TREE-005"
+      ],
+      "tags": [
+        "styling",
+        "hua-design"
+      ],
+      "title": "Implement REQ-TREE-005"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-001"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-pv-001",
+      "implementation_focus": "THE SYSTEM SHALL 调用 CLIENT_RealPlayEx 启动该通道实时预览",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-PV-001"
+      ],
+      "tags": [
+        "preview",
+        "sdk"
+      ],
+      "title": "Implement REQ-PV-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-002"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-pv-002",
+      "implementation_focus": "THE SYSTEM SHALL 通过 CLIENT_SetRealDataCallBackEx 接收码流并交给 PlaySDK 解码渲染",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-PV-002"
+      ],
+      "tags": [
+        "preview",
+        "decode"
+      ],
+      "title": "Implement REQ-PV-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-003"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-pv-003",
+      "implementation_focus": "THE SYSTEM SHALL 调用 CLIENT_StopRealPlay 停止预览并释放句柄",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-PV-003"
+      ],
+      "tags": [
+        "preview",
+        "cleanup"
+      ],
+      "title": "Implement REQ-PV-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-004"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-pv-004",
+      "implementation_focus": "THE SYSTEM SHALL 在预览区按所选布局分屏显示多个通道",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "SHOULD",
+      "requirement_type": "functional",
+      "requirements": [
+        "REQ-PV-004"
+      ],
+      "tags": [
+        "preview",
+        "multi-screen"
+      ],
+      "title": "Implement REQ-PV-004"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-005"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-pv-005",
+      "implementation_focus": "THE SYSTEM SHALL 通过 Qt 信号槽机制将回调转发到主线程处理避免线程安全问题",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "non_functional",
+      "requirements": [
+        "REQ-PV-005"
+      ],
+      "tags": [
+        "thread-safety",
+        "callback"
+      ],
+      "title": "Implement REQ-PV-005"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-NFR-001"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-nfr-001",
+      "implementation_focus": "THE SYSTEM SHALL 使用 Qt 5.14.0 Widget + CMake 3.16+ + C++17 + MSVC 2017 x64 编译",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "constraint",
+      "requirements": [
+        "REQ-NFR-001"
+      ],
+      "tags": [
+        "build",
+        "toolchain"
+      ],
+      "title": "Implement REQ-NFR-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-NFR-002"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-nfr-002",
+      "implementation_focus": "THE SYSTEM SHALL 复用 dahua-direction/NetSDK 的 Include/Lib/Bin 资产并按 V3.5.1 手册规范调用",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "constraint",
+      "requirements": [
+        "REQ-NFR-002"
+      ],
+      "tags": [
+        "sdk-integration",
+        "dependency"
+      ],
+      "title": "Implement REQ-NFR-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-NFR-003"
+      ],
+      "agent": "client-dev",
+      "id": "wp-req-nfr-003",
+      "implementation_focus": "THE SYSTEM SHALL 遵循 huaDesign 设计契约（单一主色 #1C79F4 + 4n 网格 + tabular-nums）",
+      "node_type": "implementation",
+      "planning_basis": "requirement_ears",
+      "priority": "MUST",
+      "requirement_type": "constraint",
+      "requirements": [
+        "REQ-NFR-003"
+      ],
+      "tags": [
+        "design-system",
+        "qss"
+      ],
+      "title": "Implement REQ-NFR-003"
+    }
+  ]
+}

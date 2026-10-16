@@ -1,0 +1,123 @@
+{
+  "artifact_refs": [
+    {
+      "description": "Execution result for spec_binding_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/spec_binding_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for planning_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/planning_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Gate result for plan_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/plan_gate_node.json",
+      "type": "gate-result"
+    },
+    {
+      "description": "Execution result for architecture_impact_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_impact_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Gate result for architecture_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_gate_node.json",
+      "type": "gate-result"
+    },
+    {
+      "description": "Design spec result for design_spec_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_spec_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Design gate result for design_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_gate_node.json",
+      "type": "gate-result"
+    },
+    {
+      "description": "DRG compile result for drg_compile_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/drg_compile_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for implementation_drg_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/implementation_drg_node.json",
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for wp-req-init-001_implement",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/wp-req-init-001_implement.json",
+      "type": "node-result"
+    }
+  ],
+  "blocked_nodes": [
+    "wp-req-init-002_implement",
+    "wp-req-init-002_test",
+    "wp-req-init-003_implement",
+    "wp-req-init-003_test",
+    "wp-req-init-004_implement",
+    "wp-req-init-004_test",
+    "wp-req-init-005_implement",
+    "wp-req-init-005_test",
+    "wp-req-tree-001_implement",
+    "wp-req-tree-001_test",
+    "wp-req-tree-002_implement",
+    "wp-req-tree-002_test",
+    "wp-req-tree-003_implement",
+    "wp-req-tree-003_test",
+    "wp-req-tree-004_implement",
+    "wp-req-tree-004_test",
+    "wp-req-tree-005_implement",
+    "wp-req-tree-005_test",
+    "wp-req-pv-001_implement",
+    "wp-req-pv-001_test",
+    "wp-req-pv-002_implement",
+    "wp-req-pv-002_test",
+    "wp-req-pv-003_implement",
+    "wp-req-pv-003_test",
+    "wp-req-pv-004_implement",
+    "wp-req-pv-004_test",
+    "wp-req-pv-005_implement",
+    "wp-req-pv-005_test",
+    "wp-req-nfr-001_implement",
+    "wp-req-nfr-001_test",
+    "wp-req-nfr-002_implement",
+    "wp-req-nfr-002_test",
+    "wp-req-nfr-003_implement",
+    "wp-req-nfr-003_test",
+    "final_gate_node",
+    "conformance_node",
+    "delivery_review_node",
+    "deploy_node",
+    "done_node"
+  ],
+  "bound_spec": {
+    "content_hash": "sha256:0ba6f76a9a1cc42583074f5f6e3487848c21585c7b3cd86c9db8908bd0022ee2",
+    "snapshot_uri": "specs/dahua-client/published/dahua-client-mvp/v1/spec-snapshot.json",
+    "spec_id": "dahua-client-mvp",
+    "version": 1
+  },
+  "completed_nodes": [
+    "spec_binding_node",
+    "planning_node",
+    "plan_gate_node",
+    "architecture_impact_node",
+    "architecture_gate_node",
+    "design_spec_node",
+    "design_gate_node",
+    "drg_compile_node",
+    "implementation_drg_node",
+    "wp-req-init-001_implement"
+  ],
+  "current_nodes": [
+    "wp-req-init-001_test"
+  ],
+  "failed_nodes": [],
+  "last_error": null,
+  "retry_count": {
+    "wp-req-init-001_test": 1
+  },
+  "run_id": "dahua-client-mvp-v1",
+  "status": "RUNNING"
+}

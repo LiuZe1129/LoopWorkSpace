@@ -1,0 +1,10 @@
+{
+  "bound_at": "2026-08-30T10:42:22.178319+00:00",
+  "bound_spec": {
+    "content_hash": "sha256:d096115c9c305fcea73e4701c754e5f8ad7a2d894465445747589cd785debd37",
+    "snapshot_uri": "specs/dahua-client/published/dahua-client-mvp/v2/spec-snapshot.json",
+    "spec_id": "dahua-client-mvp",
+    "version": 2
+  },
+  "run_id": "dahua-client-mvp-v2"
+}

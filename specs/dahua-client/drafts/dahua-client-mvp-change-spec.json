@@ -1,0 +1,496 @@
+{
+  "schema_version": "1.1",
+  "spec_id": "dahua-client-mvp",
+  "project": "dahua-client",
+  "intent": {
+    "summary": "创建大华产品客户端 MVP，覆盖初始化与设备登录、设备树设计、实时预览三大核心功能",
+    "background": "复用 dahua-direction/NetSDK V3.5.1 + PlaySDK + huaDesign QSS 设计契约，按 SPEC-GraphFlow 模式驱动开发，由 client-dev agent 实现 Qt5 Widget 客户端",
+    "outcome": "可登录大华设备并预览实时视频的桌面客户端，通过 GraphFlow 18 节点交付闭环"
+  },
+  "scope": {
+    "in": [
+      "NetSDK 初始化（CLIENT_Init）与释放（CLIENT_Cleanup）",
+      "设备登录（CLIENT_LoginWithHighLevelSecurity）与登出（CLIENT_Logout）",
+      "登录失败错误码处理与 UI 反馈",
+      "设备-通道树形结构展示（QTreeView + QStandardItemModel）",
+      "通道列表查询与填充",
+      "树节点单击高亮 + 双击触发预览",
+      "实时预览启动（CLIENT_RealPlayEx）与停止（CLIENT_StopRealPlay）",
+      "码流回调（CLIENT_SetRealDataCallBackEx）+ PlaySDK 解码渲染",
+      "1/4/9 分屏布局",
+      "回调线程安全（信号槽转发主线程）",
+      "huaDesign QSS 样式适配",
+      "CMake + Qt5 + C++17 + MSVC 2017 x64 构建"
+    ],
+    "out": [
+      "录像回放与下载（CLIENT_PlayBackByTimeEx / CLIENT_DownloadByTimeEx）",
+      "云台控制（CLIENT_DHPTZControlEx2）",
+      "语音对讲（CLIENT_StartTalkEx）",
+      "报警订阅（CLIENT_StartListenEx）",
+      "智能事件 IVS 订阅（CLIENT_RealLoadPictureEx）",
+      "多设备管理（仅支持单设备单登录）",
+      "设备搜索（CLIENT_StartSearchDevicesEx）",
+      "用户权限管理",
+      "QML 主路线（仅用 Widget + QSS）"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "REQ-INIT-001",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "application_process",
+      "condition": "WHEN 应用启动且 NetSDK 未初始化",
+      "system_response": "THE SYSTEM SHALL 调用 CLIENT_Init 完成 SDK 初始化并注册断线重连回调 CLIENT_SetAutoReconnect",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.1"],
+      "tags": ["sdk", "init"]
+    },
+    {
+      "id": "REQ-INIT-002",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "operator",
+      "condition": "WHEN 用户在登录对话框提交设备 IP/端口/账号/密码",
+      "system_response": "THE SYSTEM SHALL 调用 CLIENT_LoginWithHighLevelSecurity 登录设备并进入主界面",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.2"],
+      "tags": ["login", "ui"]
+    },
+    {
+      "id": "REQ-INIT-003",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "system",
+      "condition": "IF 设备登录返回错误码",
+      "system_response": "THE SYSTEM SHALL 在登录对话框显示错误原因且不进入主界面",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.2"],
+      "tags": ["error-handling", "ui"]
+    },
+    {
+      "id": "REQ-INIT-004",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "application_process",
+      "condition": "WHEN 应用退出",
+      "system_response": "THE SYSTEM SHALL 调用 CLIENT_Logout 注销登录并调用 CLIENT_Cleanup 释放 SDK 资源",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.1"],
+      "tags": ["cleanup", "sdk"]
+    },
+    {
+      "id": "REQ-INIT-005",
+      "type": "non_functional",
+      "priority": "SHOULD",
+      "actor": "system",
+      "condition": "WHILE 设备登录请求进行中",
+      "system_response": "THE SYSTEM SHALL 在 UI 上展示 Spin loading 并禁用登录按钮防止重复提交",
+      "source_refs": ["dahua-direction/UI/DESIGN.md#section-spin"],
+      "tags": ["async-ui", "ux"]
+    },
+    {
+      "id": "REQ-TREE-001",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "operator",
+      "condition": "WHEN 设备登录成功进入主界面",
+      "system_response": "THE SYSTEM SHALL 在侧边栏以 QTreeView 展示设备-通道树形结构",
+      "source_refs": ["dahua-direction/UI/DESIGN.md#section-tree"],
+      "tags": ["ui", "tree"]
+    },
+    {
+      "id": "REQ-TREE-002",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "system",
+      "condition": "WHEN 设备登录成功",
+      "system_response": "THE SYSTEM SHALL 调用 NetSDK 通道查询接口获取通道列表并填充到 QStandardItemModel",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.2"],
+      "tags": ["data", "tree"]
+    },
+    {
+      "id": "REQ-TREE-003",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "operator",
+      "condition": "WHEN 用户单击树节点",
+      "system_response": "THE SYSTEM SHALL 高亮选中该节点并展示该通道详情信息",
+      "source_refs": ["dahua-direction/UI/DESIGN.md#section-tree"],
+      "tags": ["ui", "interaction"]
+    },
+    {
+      "id": "REQ-TREE-004",
+      "type": "functional",
+      "priority": "SHOULD",
+      "actor": "operator",
+      "condition": "WHEN 用户双击通道节点",
+      "system_response": "THE SYSTEM SHALL 在预览区启动该通道的实时预览",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.3"],
+      "tags": ["ui", "preview-trigger"]
+    },
+    {
+      "id": "REQ-TREE-005",
+      "type": "ui",
+      "priority": "MUST",
+      "actor": "system",
+      "condition": "WHEN 渲染设备树",
+      "system_response": "THE SYSTEM SHALL 应用 huaDesign QSS 样式，选中节点背景 #E8F6FF，文字 #445160",
+      "source_refs": ["dahua-direction/UI/DESIGN.md#section-tree"],
+      "tags": ["styling", "hua-design"]
+    },
+    {
+      "id": "REQ-PV-001",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "operator",
+      "condition": "WHEN 用户双击通道或点击预览按钮",
+      "system_response": "THE SYSTEM SHALL 调用 CLIENT_RealPlayEx 启动该通道实时预览",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.3"],
+      "tags": ["preview", "sdk"]
+    },
+    {
+      "id": "REQ-PV-002",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "system",
+      "condition": "WHILE 预览进行中",
+      "system_response": "THE SYSTEM SHALL 通过 CLIENT_SetRealDataCallBackEx 接收码流并交给 PlaySDK 解码渲染",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.3", "dahua-direction/PlaySDK/README.md"],
+      "tags": ["preview", "decode"]
+    },
+    {
+      "id": "REQ-PV-003",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "operator",
+      "condition": "WHEN 用户关闭预览或切换通道",
+      "system_response": "THE SYSTEM SHALL 调用 CLIENT_StopRealPlay 停止预览并释放句柄",
+      "source_refs": ["dahua-direction/NetSDK/md/NetSDK.md#chapter-2.3"],
+      "tags": ["preview", "cleanup"]
+    },
+    {
+      "id": "REQ-PV-004",
+      "type": "functional",
+      "priority": "MUST",
+      "actor": "operator",
+      "condition": "WHEN 用户选择 1/4/9 分屏布局",
+      "system_response": "THE SYSTEM SHALL 在预览区按所选布局分屏显示多个通道，使用 DH_RType_Multiplay_1/4/9 触发 SDK 多画面模式",
+      "source_refs": ["dahua-direction/NetSDK/Demo/Mfc分类Demo/01.实时预览和云台控制/RealPlayAndPTZControlDlg.cpp#L1632-1645"],
+      "tags": ["preview", "multi-screen"]
+    },
+    {
+      "id": "REQ-PV-005",
+      "type": "non_functional",
+      "priority": "MUST",
+      "actor": "system",
+      "condition": "WHILE NetSDK 回调线程触发码流数据",
+      "system_response": "THE SYSTEM SHALL 通过 Qt 信号槽机制将回调转发到主线程处理避免线程安全问题",
+      "source_refs": ["dahua-direction/NetSDK/README.md#section-5.3-technical-notes"],
+      "tags": ["thread-safety", "callback"]
+    },
+    {
+      "id": "REQ-NFR-001",
+      "type": "constraint",
+      "priority": "MUST",
+      "actor": "developer",
+      "condition": "WHEN 构建客户端",
+      "system_response": "THE SYSTEM SHALL 使用 Qt 5.14.0 Widget + CMake 3.16+ + C++17 + MSVC 2017 x64 编译",
+      "source_refs": ["agents/client-dev.md#behavior-constraints"],
+      "tags": ["build", "toolchain"]
+    },
+    {
+      "id": "REQ-NFR-002",
+      "type": "constraint",
+      "priority": "MUST",
+      "actor": "developer",
+      "condition": "WHEN 集成大华 NetSDK",
+      "system_response": "THE SYSTEM SHALL 复用 dahua-direction/NetSDK 的 Include/Lib/Bin 资产并按 V3.5.1 手册规范调用",
+      "source_refs": ["dahua-direction/NetSDK/README.md"],
+      "tags": ["sdk-integration", "dependency"]
+    },
+    {
+      "id": "REQ-NFR-003",
+      "type": "constraint",
+      "priority": "MUST",
+      "actor": "developer",
+      "condition": "WHEN 实现 UI 样式",
+      "system_response": "THE SYSTEM SHALL 遵循 huaDesign 设计契约（单一主色 #1C79F4 + 4n 网格 + tabular-nums）",
+      "source_refs": ["dahua-direction/UI/DESIGN.md"],
+      "tags": ["design-system", "qss"]
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "ACC-INIT-001",
+      "requirement_ids": ["REQ-INIT-001"],
+      "type": "automated",
+      "summary": "SDK 初始化返回 TRUE 且重连回调已注册",
+      "given": ["NetSDK Bin/*.dll 已部署到可执行文件目录", "应用进程未初始化 NetSDK"],
+      "when": ["应用启动", "调用 CLIENT_Init", "调用 CLIENT_SetAutoReconnect 注册回调"],
+      "then": ["CLIENT_Init 返回 TRUE", "SDK 全局句柄可用", "断线重连回调函数指针已注册"],
+      "check": "ctest --test-dir projects/dahua-client/build -R SdkInitTest --output-on-failure",
+      "expect": "100% tests passed",
+      "evidence_required": ["unit-test-report", "init-artifact"]
+    },
+    {
+      "id": "ACC-INIT-002",
+      "requirement_ids": ["REQ-INIT-002"],
+      "type": "manual",
+      "summary": "用户输入正确凭证可登录并进入主界面",
+      "given": ["NetSDK 已初始化", "测试设备 172.12.2.108:37777 在线", "账号 admin / 密码 admin1234 有效"],
+      "when": ["用户打开登录对话框", "输入 IP/端口/账号/密码", "点击登录按钮"],
+      "then": ["CLIENT_LoginWithHighLevelSecurity 返回 0 错误码", "应用进入主界面", "设备树开始加载通道"],
+      "reviewer": "product-owner",
+      "review_scope": "登录流程演示视频与日志",
+      "evidence_required": ["login-artifact", "demo-video", "login-success-log"]
+    },
+    {
+      "id": "ACC-INIT-003",
+      "requirement_ids": ["REQ-INIT-003"],
+      "type": "manual",
+      "summary": "错误凭证登录时显示错误原因且不进入主界面",
+      "given": ["NetSDK 已初始化", "测试设备离线或密码错误"],
+      "when": ["用户输入错误凭证", "点击登录按钮"],
+      "then": ["登录按钮恢复可点击", "登录对话框展示错误原因（含 NetSDK 错误码）", "应用停留在登录界面"],
+      "reviewer": "product-owner",
+      "review_scope": "错误处理演示",
+      "evidence_required": ["error-handling-screenshot", "error-log"]
+    },
+    {
+      "id": "ACC-INIT-004",
+      "requirement_ids": ["REQ-INIT-004"],
+      "type": "automated",
+      "summary": "应用退出时调用 CLIENT_Logout 和 CLIENT_Cleanup",
+      "given": ["应用已登录设备", "登录句柄有效"],
+      "when": ["用户关闭主窗口", "应用退出流程触发"],
+      "then": ["CLIENT_Logout 被调用", "CLIENT_Cleanup 被调用", "SDK 资源释放"],
+      "check": "ctest --test-dir projects/dahua-client/build -R SdkCleanupTest --output-on-failure",
+      "expect": "100% tests passed",
+      "evidence_required": ["cleanup-test-report"]
+    },
+    {
+      "id": "ACC-INIT-005",
+      "requirement_ids": ["REQ-INIT-005"],
+      "type": "review",
+      "summary": "登录请求期间 UI 展示 loading 并禁用登录按钮",
+      "given": ["UI 设计规约要求登录按钮在请求期间展示 Spin loading 态", "huaDesign QSS 已加载"],
+      "when": ["审查登录对话框实现代码与运行截图"],
+      "then": ["登录请求期间按钮显示 Spin 并被禁用", "请求结束后恢复可点击", "无重复提交风险"],
+      "review_scope": "异步 UI loading 实现 + huaDesign Spin 适配",
+      "evidence_required": ["code-review-report", "loading-state-screenshot"]
+    },
+    {
+      "id": "ACC-TREE-001",
+      "requirement_ids": ["REQ-TREE-001"],
+      "type": "manual",
+      "summary": "登录成功后侧边栏展示设备-通道 QTreeView",
+      "given": ["设备登录成功", "设备具有多个通道"],
+      "when": ["主界面加载完成"],
+      "then": ["侧边栏展示 QTreeView", "树形结构包含设备根节点和通道子节点", "节点层级清晰"],
+      "reviewer": "product-owner",
+      "review_scope": "设备树 UI 演示",
+      "evidence_required": ["ui-screenshot"]
+    },
+    {
+      "id": "ACC-TREE-002",
+      "requirement_ids": ["REQ-TREE-002"],
+      "type": "automated",
+      "summary": "通道列表查询并填充到 QStandardItemModel",
+      "given": ["设备登录成功", "通道列表可获取"],
+      "when": ["调用 NetSDK 通道查询接口", "将返回数据填充到 QStandardItemModel"],
+      "then": ["通道列表非空", "QStandardItemModel 行数与通道数一致", "每行包含通道 ID 和名称"],
+      "check": "ctest --test-dir projects/dahua-client/build -R ChannelLoadTest --output-on-failure",
+      "expect": "100% tests passed",
+      "evidence_required": ["channel-load-test"]
+    },
+    {
+      "id": "ACC-TREE-003",
+      "requirement_ids": ["REQ-TREE-003"],
+      "type": "manual",
+      "summary": "用户单击树节点高亮并展示详情",
+      "given": ["设备树已加载", "存在多个通道节点"],
+      "when": ["用户单击某通道节点"],
+      "then": ["该节点高亮选中", "通道详情面板显示通道信息（ID/名称/类型）"],
+      "reviewer": "product-owner",
+      "review_scope": "节点交互演示",
+      "evidence_required": ["ui-screenshot"]
+    },
+    {
+      "id": "ACC-TREE-004",
+      "requirement_ids": ["REQ-TREE-004"],
+      "type": "manual",
+      "summary": "用户双击通道节点启动预览",
+      "given": ["设备树已加载", "通道可预览"],
+      "when": ["用户双击通道节点"],
+      "then": ["预览区启动该通道实时预览", "树节点状态保持", "码流开始接收"],
+      "reviewer": "product-owner",
+      "review_scope": "双击触发预览演示",
+      "evidence_required": ["demo-video"]
+    },
+    {
+      "id": "ACC-TREE-005",
+      "requirement_ids": ["REQ-TREE-005"],
+      "type": "review",
+      "summary": "设备树应用 huaDesign QSS 样式",
+      "given": ["huaDesign tokens/hua_design_tokens.qss 已加载", "主色 #1C79F4"],
+      "when": ["审查设备树渲染"],
+      "then": ["选中节点背景为 #E8F6FF", "节点文字色为 #445160", "间距符合 4n 网格", "无裸色值"],
+      "review_scope": "设备树样式 huaDesign 一致性",
+      "evidence_required": ["ui-review-report"]
+    },
+    {
+      "id": "ACC-PV-001",
+      "requirement_ids": ["REQ-PV-001"],
+      "type": "automated",
+      "summary": "CLIENT_RealPlayEx 启动预览返回非 0 句柄",
+      "given": ["NetSDK 已初始化", "设备已登录", "通道 ID 已知"],
+      "when": ["调用 CLIENT_RealPlayEx"],
+      "then": ["返回非 0 预览句柄", "预览窗口开始接收码流"],
+      "check": "ctest --test-dir projects/dahua-client/build -R RealPlayStartTest --output-on-failure",
+      "expect": "100% tests passed",
+      "evidence_required": ["preview-start-test"]
+    },
+    {
+      "id": "ACC-PV-002",
+      "requirement_ids": ["REQ-PV-002"],
+      "type": "manual",
+      "summary": "码流回调转发主线程并解码渲染",
+      "given": ["预览已启动", "PlaySDK 已加载"],
+      "when": ["码流回调触发"],
+      "then": ["码流数据被转发到主线程", "PlaySDK 解码并渲染到窗口", "画面流畅无卡顿"],
+      "reviewer": "product-owner",
+      "review_scope": "预览码流演示",
+      "evidence_required": ["demo-video", "preview-log"]
+    },
+    {
+      "id": "ACC-PV-003",
+      "requirement_ids": ["REQ-PV-003"],
+      "type": "automated",
+      "summary": "CLIENT_StopRealPlay 停止预览释放句柄",
+      "given": ["预览进行中", "预览句柄有效"],
+      "when": ["调用 CLIENT_StopRealPlay"],
+      "then": ["预览句柄被释放", "窗口停止渲染", "回调停止触发"],
+      "check": "ctest --test-dir projects/dahua-client/build -R RealPlayStopTest --output-on-failure",
+      "expect": "100% tests passed",
+      "evidence_required": ["preview-stop-test"]
+    },
+    {
+      "id": "ACC-PV-004",
+      "requirement_ids": ["REQ-PV-004"],
+      "type": "manual",
+      "summary": "1/4/9 分屏布局多通道预览",
+      "given": ["多个通道可预览", "用户已登录"],
+      "when": ["用户选择 4 分屏布局", "依次双击 4 个通道"],
+      "then": ["预览区分为 4 个等大窗口", "每个窗口显示对应通道实时画面", "切换 9 分屏可显示 9 个通道"],
+      "reviewer": "product-owner",
+      "review_scope": "多分屏预览演示",
+      "evidence_required": ["multi-screen-video"]
+    },
+    {
+      "id": "ACC-PV-005",
+      "requirement_ids": ["REQ-PV-005"],
+      "type": "review",
+      "summary": "回调线程安全通过信号槽转发",
+      "given": ["NetSDK 回调工作线程触发码流数据"],
+      "when": ["审查预览实现代码"],
+      "then": ["回调中使用 Qt emit 信号而非直接操作 UI", "主线程槽函数处理渲染", "无竞态条件或崩溃"],
+      "review_scope": "线程安全实现 + 信号槽转发模式",
+      "evidence_required": ["thread-safety-review"]
+    },
+    {
+      "id": "ACC-NFR-001",
+      "requirement_ids": ["REQ-NFR-001"],
+      "type": "automated",
+      "summary": "CMake 构建成功生成可执行文件",
+      "given": ["CMakeLists.txt 配置完成", "Qt 5.14.0 + MSVC 2017 x64 已安装"],
+      "when": ["执行 cmake -S . -B build", "执行 cmake --build build --config Release"],
+      "then": ["构建成功", "生成 dahua-client.exe", "无编译错误"],
+      "check": "cmake --build projects/dahua-client/build --config Release 2>&1 | Select-String -Pattern 'error' -Quiet",
+      "expect": "False",
+      "evidence_required": ["build-log"]
+    },
+    {
+      "id": "ACC-NFR-002",
+      "requirement_ids": ["REQ-NFR-002"],
+      "type": "review",
+      "summary": "NetSDK 头文件/库文件/DLL 集成配置正确",
+      "given": ["dahua-direction/NetSDK Include/Lib/Bin 已就位"],
+      "when": ["审查 CMake 链接配置和头文件包含"],
+      "then": ["target_link_libraries 含 dhnetsdk.lib", "Bin/*.dll 部署到输出目录", "#include <dhnetsdk.h> 可解析"],
+      "review_scope": "CMake SDK 集成配置",
+      "evidence_required": ["cmake-config-review"]
+    },
+    {
+      "id": "ACC-NFR-003",
+      "requirement_ids": ["REQ-NFR-003"],
+      "type": "review",
+      "summary": "huaDesign QSS 样式资源正确加载并应用",
+      "given": ["dahua-direction/UI/tokens/hua_design_tokens.qss 已就位"],
+      "when": ["审查 UI 样式资源"],
+      "then": ["qApp->setStyleSheet 应用 huaDesign QSS", "色值引用 token 而非裸值", "间距符合 4n 网格"],
+      "review_scope": "设计系统适配",
+      "evidence_required": ["qss-review"]
+    }
+  ],
+  "constraints": [
+    "Qt 5.14.0 Widget（非 QML 主路线，QSS 主样式）",
+    "CMake 3.16+，禁用 qmake",
+    "C++17，MSVC 2017 x64",
+    "大华 NetSDK V3.5.1（Win64），默认端口 TCP 37777",
+    "huaDesign 设计契约：单一主色 #1C79F4 + 4n 网格 + tabular-nums",
+    "NetSDK 回调中禁止调用 SDK 接口（需信号转发到 Qt 主线程）",
+    "单设备单登录场景（多设备管理为后续版本）",
+    "测试设备：172.12.2.108:37777 admin/admin1234（可配置）"
+  ],
+  "dependencies": [
+    {
+      "name": "dahua-netsdk",
+      "version": "3.5.1",
+      "path": "dahua-direction/NetSDK",
+      "type": "binary"
+    },
+    {
+      "name": "dahua-playsdk",
+      "version": "latest",
+      "path": "dahua-direction/PlaySDK",
+      "type": "binary"
+    },
+    {
+      "name": "huadesign-ui",
+      "version": "1.2.11-beta.1",
+      "path": "dahua-direction/UI",
+      "type": "design-contract"
+    },
+    {
+      "name": "qt",
+      "version": "5.14.0",
+      "type": "framework"
+    },
+    {
+      "name": "msvc",
+      "version": "2017",
+      "type": "compiler"
+    }
+  ],
+  "assumptions": [
+    "测试设备 172.12.2.108:37777 账号 admin 密码 admin1234 在线可用",
+    "Qt 5.14.0 + MSVC 2017 x64 已安装并配置环境变量",
+    "首版只支持主码流预览，子码流回放为后续版本",
+    "单设备单登录场景，多设备管理为后续版本",
+    "用户具备运行 Windows 10/11 x64 环境"
+  ],
+  "open_questions": [],
+  "product_shape": {
+    "product_type": "qt",
+    "platform": "desktop",
+    "form": "pc-client",
+    "framework": "qt5-widget",
+    "language": "cpp17",
+    "architecture": "single-process-mvc",
+    "ui_styling": "qss-hua-design",
+    "sdk_version": "dahua-netsdk-v3.5.1-win64"
+  },
+  "source_refs": [
+    "doc/dahua-client-spec-strategy.md",
+    "dahua-direction/NetSDK/README.md",
+    "dahua-direction/UI/DESIGN.md",
+    "agents/client-dev.md"
+  ]
+}

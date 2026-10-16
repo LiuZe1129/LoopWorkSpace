@@ -1,0 +1,882 @@
+{
+  "acceptance_coverage": [
+    {
+      "acceptance_id": "ACC-INIT-001",
+      "verification": "test",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "acceptance_id": "ACC-INIT-002",
+      "verification": "test",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "acceptance_id": "ACC-INIT-003",
+      "verification": "test",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "acceptance_id": "ACC-INIT-004",
+      "verification": "test",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "acceptance_id": "ACC-INIT-005",
+      "verification": "test",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "acceptance_id": "ACC-TREE-001",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "acceptance_id": "ACC-TREE-002",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "acceptance_id": "ACC-TREE-003",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "acceptance_id": "ACC-TREE-004",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "acceptance_id": "ACC-TREE-005",
+      "verification": "test",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "acceptance_id": "ACC-PV-001",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "acceptance_id": "ACC-PV-002",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "acceptance_id": "ACC-PV-003",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "acceptance_id": "ACC-PV-004",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "acceptance_id": "ACC-PV-005",
+      "verification": "test",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "acceptance_id": "ACC-NFR-001",
+      "verification": "test",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "acceptance_id": "ACC-NFR-002",
+      "verification": "test",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "acceptance_id": "ACC-NFR-003",
+      "verification": "test",
+      "work_package_id": "wp-req-nfr-003"
+    }
+  ],
+  "content_hash": "sha256:7a691b2c916a4f1b54d7d76a5a20b6058858797448fc175e0991ff69549299ff",
+  "edges": [
+    {
+      "source": "spec_binding_node",
+      "target": "planning_node"
+    },
+    {
+      "source": "planning_node",
+      "target": "plan_gate_node"
+    },
+    {
+      "source": "plan_gate_node",
+      "target": "architecture_impact_node"
+    },
+    {
+      "source": "architecture_impact_node",
+      "target": "architecture_gate_node"
+    },
+    {
+      "source": "architecture_gate_node",
+      "target": "design_spec_node"
+    },
+    {
+      "source": "design_spec_node",
+      "target": "design_gate_node"
+    },
+    {
+      "source": "design_gate_node",
+      "target": "drg_compile_node"
+    },
+    {
+      "source": "drg_compile_node",
+      "target": "implementation_drg_node"
+    },
+    {
+      "source": "implementation_drg_node",
+      "target": "wp-req-init-001_implement"
+    },
+    {
+      "source": "wp-req-init-001_implement",
+      "target": "wp-req-init-001_test"
+    },
+    {
+      "source": "wp-req-init-001_test",
+      "target": "wp-req-init-002_implement"
+    },
+    {
+      "source": "wp-req-init-002_implement",
+      "target": "wp-req-init-002_test"
+    },
+    {
+      "source": "wp-req-init-002_test",
+      "target": "wp-req-init-003_implement"
+    },
+    {
+      "source": "wp-req-init-003_implement",
+      "target": "wp-req-init-003_test"
+    },
+    {
+      "source": "wp-req-init-003_test",
+      "target": "wp-req-init-004_implement"
+    },
+    {
+      "source": "wp-req-init-004_implement",
+      "target": "wp-req-init-004_test"
+    },
+    {
+      "source": "wp-req-init-004_test",
+      "target": "wp-req-init-005_implement"
+    },
+    {
+      "source": "wp-req-init-005_implement",
+      "target": "wp-req-init-005_test"
+    },
+    {
+      "source": "wp-req-init-005_test",
+      "target": "wp-req-tree-001_implement"
+    },
+    {
+      "source": "wp-req-tree-001_implement",
+      "target": "wp-req-tree-001_test"
+    },
+    {
+      "source": "wp-req-tree-001_test",
+      "target": "wp-req-tree-002_implement"
+    },
+    {
+      "source": "wp-req-tree-002_implement",
+      "target": "wp-req-tree-002_test"
+    },
+    {
+      "source": "wp-req-tree-002_test",
+      "target": "wp-req-tree-003_implement"
+    },
+    {
+      "source": "wp-req-tree-003_implement",
+      "target": "wp-req-tree-003_test"
+    },
+    {
+      "source": "wp-req-tree-003_test",
+      "target": "wp-req-tree-004_implement"
+    },
+    {
+      "source": "wp-req-tree-004_implement",
+      "target": "wp-req-tree-004_test"
+    },
+    {
+      "source": "wp-req-tree-004_test",
+      "target": "wp-req-tree-005_implement"
+    },
+    {
+      "source": "wp-req-tree-005_implement",
+      "target": "wp-req-tree-005_test"
+    },
+    {
+      "source": "wp-req-tree-005_test",
+      "target": "wp-req-pv-001_implement"
+    },
+    {
+      "source": "wp-req-pv-001_implement",
+      "target": "wp-req-pv-001_test"
+    },
+    {
+      "source": "wp-req-pv-001_test",
+      "target": "wp-req-pv-002_implement"
+    },
+    {
+      "source": "wp-req-pv-002_implement",
+      "target": "wp-req-pv-002_test"
+    },
+    {
+      "source": "wp-req-pv-002_test",
+      "target": "wp-req-pv-003_implement"
+    },
+    {
+      "source": "wp-req-pv-003_implement",
+      "target": "wp-req-pv-003_test"
+    },
+    {
+      "source": "wp-req-pv-003_test",
+      "target": "wp-req-pv-004_implement"
+    },
+    {
+      "source": "wp-req-pv-004_implement",
+      "target": "wp-req-pv-004_test"
+    },
+    {
+      "source": "wp-req-pv-004_test",
+      "target": "wp-req-pv-005_implement"
+    },
+    {
+      "source": "wp-req-pv-005_implement",
+      "target": "wp-req-pv-005_test"
+    },
+    {
+      "source": "wp-req-pv-005_test",
+      "target": "wp-req-nfr-001_implement"
+    },
+    {
+      "source": "wp-req-nfr-001_implement",
+      "target": "wp-req-nfr-001_test"
+    },
+    {
+      "source": "wp-req-nfr-001_test",
+      "target": "wp-req-nfr-002_implement"
+    },
+    {
+      "source": "wp-req-nfr-002_implement",
+      "target": "wp-req-nfr-002_test"
+    },
+    {
+      "source": "wp-req-nfr-002_test",
+      "target": "wp-req-nfr-003_implement"
+    },
+    {
+      "source": "wp-req-nfr-003_implement",
+      "target": "wp-req-nfr-003_test"
+    },
+    {
+      "source": "wp-req-nfr-003_test",
+      "target": "final_gate_node"
+    },
+    {
+      "source": "final_gate_node",
+      "target": "conformance_node"
+    },
+    {
+      "source": "conformance_node",
+      "target": "delivery_review_node"
+    },
+    {
+      "source": "delivery_review_node",
+      "target": "deploy_node"
+    },
+    {
+      "source": "deploy_node",
+      "target": "done_node"
+    }
+  ],
+  "nodes": [
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "spec_binding_node",
+      "label": "Spec Binding",
+      "requirements": [],
+      "type": "governance"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "orchestrator-llm",
+      "id": "planning_node",
+      "label": "Planning",
+      "requirements": [],
+      "type": "governance"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "plan_gate_node",
+      "label": "Plan Gate",
+      "requirements": [],
+      "type": "plan_gate"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "architect-agent",
+      "id": "architecture_impact_node",
+      "label": "Architecture Impact",
+      "requirements": [],
+      "type": "architecture"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "architecture_gate_node",
+      "label": "Architecture Gate",
+      "requirements": [],
+      "type": "gate"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "architect-agent",
+      "id": "design_spec_node",
+      "label": "Design Spec",
+      "requirements": [],
+      "type": "architecture"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "design_gate_node",
+      "label": "Design Gate",
+      "requirements": [],
+      "type": "gate"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "drg_compile_node",
+      "label": "DRG Compile",
+      "requirements": [],
+      "type": "compiler"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "orchestrator-llm",
+      "id": "implementation_drg_node",
+      "label": "Implementation DRG",
+      "requirements": [],
+      "type": "governance"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-init-001_implement",
+      "label": "Implement REQ-INIT-001",
+      "requirements": [
+        "REQ-INIT-001"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-001"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-init-001_test",
+      "label": "Verify wp-req-init-001",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-init-002_implement",
+      "label": "Implement REQ-INIT-002",
+      "requirements": [
+        "REQ-INIT-002"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-002"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-init-002_test",
+      "label": "Verify wp-req-init-002",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-init-003_implement",
+      "label": "Implement REQ-INIT-003",
+      "requirements": [
+        "REQ-INIT-003"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-003"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-init-003_test",
+      "label": "Verify wp-req-init-003",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-init-004_implement",
+      "label": "Implement REQ-INIT-004",
+      "requirements": [
+        "REQ-INIT-004"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-004"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-init-004_test",
+      "label": "Verify wp-req-init-004",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-init-005_implement",
+      "label": "Implement REQ-INIT-005",
+      "requirements": [
+        "REQ-INIT-005"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-INIT-005"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-init-005_test",
+      "label": "Verify wp-req-init-005",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-tree-001_implement",
+      "label": "Implement REQ-TREE-001",
+      "requirements": [
+        "REQ-TREE-001"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-001"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-tree-001_test",
+      "label": "Verify wp-req-tree-001",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-tree-002_implement",
+      "label": "Implement REQ-TREE-002",
+      "requirements": [
+        "REQ-TREE-002"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-002"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-tree-002_test",
+      "label": "Verify wp-req-tree-002",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-tree-003_implement",
+      "label": "Implement REQ-TREE-003",
+      "requirements": [
+        "REQ-TREE-003"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-003"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-tree-003_test",
+      "label": "Verify wp-req-tree-003",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-tree-004_implement",
+      "label": "Implement REQ-TREE-004",
+      "requirements": [
+        "REQ-TREE-004"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-004"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-tree-004_test",
+      "label": "Verify wp-req-tree-004",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-tree-005_implement",
+      "label": "Implement REQ-TREE-005",
+      "requirements": [
+        "REQ-TREE-005"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-TREE-005"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-tree-005_test",
+      "label": "Verify wp-req-tree-005",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-pv-001_implement",
+      "label": "Implement REQ-PV-001",
+      "requirements": [
+        "REQ-PV-001"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-001"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-pv-001_test",
+      "label": "Verify wp-req-pv-001",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-pv-002_implement",
+      "label": "Implement REQ-PV-002",
+      "requirements": [
+        "REQ-PV-002"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-002"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-pv-002_test",
+      "label": "Verify wp-req-pv-002",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-pv-003_implement",
+      "label": "Implement REQ-PV-003",
+      "requirements": [
+        "REQ-PV-003"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-003"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-pv-003_test",
+      "label": "Verify wp-req-pv-003",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-pv-004_implement",
+      "label": "Implement REQ-PV-004",
+      "requirements": [
+        "REQ-PV-004"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-004"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-pv-004_test",
+      "label": "Verify wp-req-pv-004",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-pv-005_implement",
+      "label": "Implement REQ-PV-005",
+      "requirements": [
+        "REQ-PV-005"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-PV-005"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-pv-005_test",
+      "label": "Verify wp-req-pv-005",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-nfr-001_implement",
+      "label": "Implement REQ-NFR-001",
+      "requirements": [
+        "REQ-NFR-001"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-NFR-001"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-nfr-001_test",
+      "label": "Verify wp-req-nfr-001",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-nfr-002_implement",
+      "label": "Implement REQ-NFR-002",
+      "requirements": [
+        "REQ-NFR-002"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-NFR-002"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-nfr-002_test",
+      "label": "Verify wp-req-nfr-002",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "client-dev",
+      "id": "wp-req-nfr-003_implement",
+      "label": "Implement REQ-NFR-003",
+      "requirements": [
+        "REQ-NFR-003"
+      ],
+      "type": "implementation",
+      "work_package_id": "wp-req-nfr-003"
+    },
+    {
+      "acceptance_criteria": [
+        "ACC-NFR-003"
+      ],
+      "agent": "test-agent",
+      "id": "wp-req-nfr-003_test",
+      "label": "Verify wp-req-nfr-003",
+      "requirements": [],
+      "type": "test",
+      "work_package_id": "wp-req-nfr-003"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "final_gate_node",
+      "label": "Final Gate",
+      "requirements": [],
+      "type": "gate"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "conformance_node",
+      "label": "Conformance",
+      "requirements": [],
+      "type": "conformance"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "review-agent",
+      "id": "delivery_review_node",
+      "label": "Delivery Review",
+      "requirements": [],
+      "type": "review"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "devops-agent",
+      "id": "deploy_node",
+      "label": "Deploy",
+      "requirements": [],
+      "type": "deploy"
+    },
+    {
+      "acceptance_criteria": [],
+      "agent": "gate-auto",
+      "id": "done_node",
+      "label": "Done",
+      "requirements": [],
+      "type": "governance"
+    }
+  ],
+  "requirement_coverage": [
+    {
+      "requirement_id": "REQ-INIT-001",
+      "work_package_id": "wp-req-init-001"
+    },
+    {
+      "requirement_id": "REQ-INIT-002",
+      "work_package_id": "wp-req-init-002"
+    },
+    {
+      "requirement_id": "REQ-INIT-003",
+      "work_package_id": "wp-req-init-003"
+    },
+    {
+      "requirement_id": "REQ-INIT-004",
+      "work_package_id": "wp-req-init-004"
+    },
+    {
+      "requirement_id": "REQ-INIT-005",
+      "work_package_id": "wp-req-init-005"
+    },
+    {
+      "requirement_id": "REQ-TREE-001",
+      "work_package_id": "wp-req-tree-001"
+    },
+    {
+      "requirement_id": "REQ-TREE-002",
+      "work_package_id": "wp-req-tree-002"
+    },
+    {
+      "requirement_id": "REQ-TREE-003",
+      "work_package_id": "wp-req-tree-003"
+    },
+    {
+      "requirement_id": "REQ-TREE-004",
+      "work_package_id": "wp-req-tree-004"
+    },
+    {
+      "requirement_id": "REQ-TREE-005",
+      "work_package_id": "wp-req-tree-005"
+    },
+    {
+      "requirement_id": "REQ-PV-001",
+      "work_package_id": "wp-req-pv-001"
+    },
+    {
+      "requirement_id": "REQ-PV-002",
+      "work_package_id": "wp-req-pv-002"
+    },
+    {
+      "requirement_id": "REQ-PV-003",
+      "work_package_id": "wp-req-pv-003"
+    },
+    {
+      "requirement_id": "REQ-PV-004",
+      "work_package_id": "wp-req-pv-004"
+    },
+    {
+      "requirement_id": "REQ-PV-005",
+      "work_package_id": "wp-req-pv-005"
+    },
+    {
+      "requirement_id": "REQ-NFR-001",
+      "work_package_id": "wp-req-nfr-001"
+    },
+    {
+      "requirement_id": "REQ-NFR-002",
+      "work_package_id": "wp-req-nfr-002"
+    },
+    {
+      "requirement_id": "REQ-NFR-003",
+      "work_package_id": "wp-req-nfr-003"
+    }
+  ],
+  "run_id": "dahua-client-mvp-v1",
+  "schema_version": "1.0",
+  "spec_id": "dahua-client-mvp",
+  "spec_version": 1,
+  "template_id": "qt-feature-v1"
+}

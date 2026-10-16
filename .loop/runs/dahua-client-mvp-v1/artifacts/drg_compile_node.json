@@ -1,0 +1,11 @@
+{
+  "agent": "gate-auto",
+  "completed_at": "2026-08-30T10:34:11.301524+00:00",
+  "node_id": "drg_compile_node",
+  "node_type": "compiler",
+  "plan_refined": false,
+  "run_id": "dahua-client-mvp-v1",
+  "status": "success",
+  "summary": "drg_compile_node completed (no refinement — minimal design spec)",
+  "wp_count": null
+}

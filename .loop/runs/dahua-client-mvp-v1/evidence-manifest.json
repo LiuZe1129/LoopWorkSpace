@@ -1,0 +1,123 @@
+{
+  "artifacts": [
+    {
+      "description": "Execution result for spec_binding_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/spec_binding_node.json",
+      "sha256": "sha256:0e2d328c69d247464c3b201f24f6a1f9de804834846b6eb8777057c2ddd4f295",
+      "size_bytes": 281,
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for planning_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/planning_node.json",
+      "sha256": "sha256:6827bd3715436d300d8caae4f0e89b3cee6c70136bf5d94e4693cce1549fe8ac",
+      "size_bytes": 280,
+      "type": "node-result"
+    },
+    {
+      "description": "Gate result for plan_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/plan_gate_node.json",
+      "sha256": "sha256:3e9ea5e79c73ded8edd5c50a11af09ad83914886b9fc4cc9343d861d3f7a1aac",
+      "size_bytes": 296,
+      "type": "gate-result"
+    },
+    {
+      "description": "Execution result for architecture_impact_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_impact_node.json",
+      "sha256": "sha256:a4d0f59a39277b71d03a63ee26f5e4f44fc55e11c60c5ede95e2dbe093a82829",
+      "size_bytes": 303,
+      "type": "node-result"
+    },
+    {
+      "description": "Gate result for architecture_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/architecture_gate_node.json",
+      "sha256": "sha256:afe8f3e48b04ab07b26a6616490aae9c07cc565e1992a07f798f5c61e26df492",
+      "size_bytes": 307,
+      "type": "gate-result"
+    },
+    {
+      "description": "Design spec result for design_spec_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_spec_node.json",
+      "sha256": "sha256:4a9c3ceb053d374940f10e8c9eb2b05203a8f2c3afbf04d487c7aa5da96cc8fe",
+      "size_bytes": 351,
+      "type": "node-result"
+    },
+    {
+      "description": "Design gate result for design_gate_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/design_gate_node.json",
+      "sha256": "sha256:05a9239401808900c2685f5cbecad1ada7d113fb4e32029f7b01acde76e119fe",
+      "size_bytes": 965,
+      "type": "gate-result"
+    },
+    {
+      "description": "DRG compile result for drg_compile_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/drg_compile_node.json",
+      "sha256": "sha256:c4000a7037ae56598666cae402e4c7507c628a4b1ba29f26f8fd2eee8a10dda5",
+      "size_bytes": 338,
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for implementation_drg_node",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/implementation_drg_node.json",
+      "sha256": "sha256:70b0b9d3462eeca41d471b98c1f5a3c329067a747284a8b648dabd3989a77114",
+      "size_bytes": 300,
+      "type": "node-result"
+    },
+    {
+      "description": "Execution result for wp-req-init-001_implement",
+      "path": ".loop/runs/dahua-client-mvp-v1/artifacts/wp-req-init-001_implement.json",
+      "sha256": "sha256:258e61b03a851c8594de1b67075f30370e723eb2524964d1e7d06aea31a34550",
+      "size_bytes": 302,
+      "type": "node-result"
+    }
+  ],
+  "generated_at": "2026-08-30T10:34:21.037702+00:00",
+  "run_files": [
+    {
+      "description": "GraphRun runtime file",
+      "path": ".loop/runs/dahua-client-mvp-v1/spec-binding.json",
+      "sha256": "sha256:69fd21cb95bc1b70a788376d6c4792d2434a21db936c2ac367d907606638de0c",
+      "size_bytes": 359,
+      "type": "run-file"
+    },
+    {
+      "description": "GraphRun runtime file",
+      "path": ".loop/runs/dahua-client-mvp-v1/run-state.json",
+      "sha256": "sha256:51e3d74c03dca103f85a7a83970af413c5e32e317582da3a049fc31d289b4e6d",
+      "size_bytes": 3939,
+      "type": "run-file"
+    },
+    {
+      "description": "GraphRun runtime file",
+      "path": ".loop/runs/dahua-client-mvp-v1/execution-plan.json",
+      "sha256": "sha256:7bedf64d49ab821132cec3770b002ab89b88fe358ec05a071e91fdaad54fc8f0",
+      "size_bytes": 17028,
+      "type": "run-file"
+    },
+    {
+      "description": "GraphRun runtime file",
+      "path": ".loop/runs/dahua-client-mvp-v1/execution-graph.json",
+      "sha256": "sha256:49497c646855296210e6a89961a1922c004c83b6323fb298050531cc8f530db6",
+      "size_bytes": 22369,
+      "type": "run-file"
+    },
+    {
+      "description": "GraphRun runtime file",
+      "path": ".loop/runs/dahua-client-mvp-v1/tool-contract-report.json",
+      "sha256": "sha256:24d2ec0182ad648b189f7b55a5f569641d4a8893d9a92a67d3a0ba3fec958adf",
+      "size_bytes": 42304,
+      "type": "run-file"
+    },
+    {
+      "description": "GraphRun runtime file",
+      "path": ".loop/runs/dahua-client-mvp-v1/design-spec.json",
+      "sha256": "sha256:7210d59f7b44528ef435306048ee1f381499d281e859c2307ec5a78707bf7b57",
+      "size_bytes": 13628,
+      "type": "run-file"
+    }
+  ],
+  "run_id": "dahua-client-mvp-v1",
+  "schema_version": "1.0",
+  "spec_id": "dahua-client-mvp",
+  "spec_version": 1
+}

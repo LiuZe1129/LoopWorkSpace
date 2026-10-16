@@ -1,0 +1,3 @@
+{"run_id": "dahua-client-mvp-v2", "timestamp": "2026-08-30T10:42:22.188318+00:00", "type": "run_created"}
+{"content_hash": "sha256:d096115c9c305fcea73e4701c754e5f8ad7a2d894465445747589cd785debd37", "run_id": "dahua-client-mvp-v2", "snapshot_uri": "specs/dahua-client/published/dahua-client-mvp/v2/spec-snapshot.json", "spec_id": "dahua-client-mvp", "spec_version": 2, "timestamp": "2026-08-30T10:42:22.195829+00:00", "type": "spec_bound"}
+{"run_id": "dahua-client-mvp-v2", "superseded_content_hash": "sha256:0ba6f76a9a1cc42583074f5f6e3487848c21585c7b3cd86c9db8908bd0022ee2", "superseded_run_id": "dahua-client-mvp-v1", "superseded_spec_id": "dahua-client-mvp", "superseded_spec_version": 1, "timestamp": "2026-08-30T10:42:22.222591+00:00", "type": "run_supersedes"}
