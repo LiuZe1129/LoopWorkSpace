@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .path_security import resolve_within, validate_path_segment
 from .state import TaskCard
 
 
@@ -13,17 +14,35 @@ UI_ARTIFACTS = {"product-shape.json", "ui-design.json", "ui-review.json"}
 
 
 class ArtifactManager:
+    """管理 Legacy TaskCard 产物，并为迁移到 Harness ArtifactStore 保留兼容入口。
+
+    该组件位于旧任务状态转换到 Artifact 校验的流程中；阶段 0 为其增加路径边界，
+    防止 project、task_id 或 artifact name 写出授权工作区。
+    """
+
     def __init__(self, root: Path):
-        self.root = root
+        self.root = root.resolve()
 
     def artifact_path(self, task: TaskCard, name: str, round_number: int | None = None) -> Path:
+        """构造 Legacy Artifact 路径，位于旧流程写入产物之前的统一安全检查点。"""
         if name in GLOBAL_ARTIFACTS:
             selected_round = 0
         elif name in ARCH_ARTIFACTS:
             selected_round = task.arch_round
         else:
             selected_round = task.round if round_number is None else round_number
-        return self.root / ".loop" / "artifacts" / task.project / task.id / f"round-{selected_round}" / name
+        project = validate_path_segment(task.project, "project")
+        task_id = validate_path_segment(task.id, "task_id")
+        artifact_name = validate_path_segment(name, "artifact name")
+        return resolve_within(
+            self.root,
+            ".loop",
+            "artifacts",
+            project,
+            task_id,
+            f"round-{int(selected_round)}",
+            artifact_name,
+        )
 
     def exists_nonempty(self, task: TaskCard, name: str, round_number: int | None = None) -> bool:
         path = self.artifact_path(task, name, round_number)

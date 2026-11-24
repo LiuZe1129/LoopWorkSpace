@@ -20,6 +20,9 @@ from .tool_contracts import generate_tool_contract_report, validate_node_result_
 
 
 EXECUTABLE_RUN_STATUSES = {"BOUND", "PLANNING", "RUNNING"}
+# 执行模式位于 GraphFlow 节点进入 Harness 前的分流点：harness 为正式 fail-closed
+# 模式，mock 仅供确定性 GraphFlow 回归测试注入，用户 CLI 不暴露 mock 开关。
+EXECUTION_MODES = {"harness", "mock"}
 MAX_SPEC_REBOUND_COUNT = 3  # V-8: circuit breaker for spec_rebound events
 NodeHandler = Callable[[str, dict[str, Any], RunState, dict[str, Any]], "NodeExecutionResult"]
 
@@ -42,6 +45,12 @@ class ExecutorResult:
 
 
 class DRGExecutor:
+    """GraphFlow 的确定性节点调度器，也是节点进入 Harness 的外层边界。
+
+    它负责依赖顺序、GraphRun 状态、节点重试和 TaskResult 映射，不应承载模型轮次、
+    ToolCall 或 Sandbox 生命周期。阶段 0 先确保正式模式缺少真实 Handler 时关闭失败。
+    """
+
     def __init__(
         self,
         root: Path,
@@ -49,7 +58,11 @@ class DRGExecutor:
         agent_handlers: dict[str, NodeHandler] | None = None,
         retry_policy: RetryPolicy | None = None,
         wall_clock_timeout_seconds: float | None = None,
+        execution_mode: str = "harness",
+        harness_handler: NodeHandler | None = None,
     ):
+        if execution_mode not in EXECUTION_MODES:
+            raise ValueError(f"unsupported execution mode: {execution_mode}")
         self.root = root
         self.store = GraphRunStore(root)
         self.events = EventLogger(root)
@@ -57,6 +70,9 @@ class DRGExecutor:
         self.agent_handlers = agent_handlers or {}
         self.retry_policy_runner = RetryPolicyRunner(root, retry_policy)
         self.wall_clock_timeout_seconds = wall_clock_timeout_seconds
+        self.execution_mode = execution_mode
+        # Harness Handler 位于 GraphFlow 调度与单 Task 执行内核之间，正式模式由它接管实现、测试和门禁节点。
+        self.harness_handler = harness_handler
 
     def _check_run_health(self, run_id: str) -> ExecutorResult | None:
         """Read events.jsonl to detect runaway conditions (lightweight, no RunState mutation beyond FAILED).
@@ -181,6 +197,11 @@ class DRGExecutor:
             return health
 
         state.status = "RUNNING"
+        self.events.append_run(
+            run_id,
+            "run_execution_started",
+            {"run_id": run_id, "execution_mode": self.execution_mode},
+        )
         executed: list[str] = []
         limit = max_steps if max_steps is not None else len(graph["nodes"])
         start_time = time.monotonic()
@@ -355,16 +376,28 @@ class DRGExecutor:
         if node_id == "drg_compile_node":
             return self.execute_drg_compile_node(run_id, state, node_payload)
         node_type = node_payload["type"]
+        if (
+            self.execution_mode == "harness"
+            and self.harness_handler is not None
+            and node_type in {"implementation", "test", "gate", "plan_gate"}
+        ):
+            return self.harness_handler(run_id, graph, state, node_payload)
         if node_type in {"gate", "plan_gate"}:
             return self.execute_gate_node(run_id, state, node_payload)
         if node_type == "test":
             return self.execute_test_node(run_id, state, node_payload)
         if node_type == "review":
+            if self.execution_mode != "mock":
+                return self.missing_handler_result(node_payload)
             return self.execute_review_node(run_id, node_payload)
         if node_type == "deploy":
+            if self.execution_mode != "mock":
+                return self.missing_handler_result(node_payload)
             return self.execute_deploy_node(run_id, node_payload)
         if node_type == "conformance":
             return self.execute_conformance_node(run_id, graph, state, node_payload)
+        if self.execution_mode != "mock":
+            return self.missing_handler_result(node_payload)
         artifact_path = self.write_node_result(run_id, node_payload)
         return NodeExecutionResult(
             status="success",
@@ -379,7 +412,12 @@ class DRGExecutor:
         )
 
     def execute_gate_node(self, run_id: str, state: RunState, node_payload: dict[str, Any]) -> NodeExecutionResult:
-        checks = run_gate_checks(self.root, state, node_payload["id"])
+        checks = run_gate_checks(
+            self.root,
+            state,
+            node_payload["id"],
+            allow_host_shell=self.execution_mode == "mock",
+        )
         verdict = "PASS" if all(check.passed for check in checks) else "FAIL"
         path = self.store.run_dir(run_id) / "artifacts" / f"{node_payload['id']}.json"
         write_json(
@@ -410,6 +448,7 @@ class DRGExecutor:
             state,
             node_payload["id"],
             acceptance_ids=list(node_payload.get("acceptance_criteria", []) or []),
+            allow_host_shell=self.execution_mode == "mock",
         )
         verdict = "PASS" if all(check.passed for check in checks) else "FAIL"
         path = self.store.run_dir(run_id) / "artifacts" / f"{node_payload['id']}.json"
@@ -455,6 +494,7 @@ class DRGExecutor:
                 "agent": node_payload.get("agent"),
                 "status": "success",
                 "verdict": "APPROVE",
+                "execution_mode": "mock",
                 "issues": [],
                 "completed_at": utc_now(),
                 "summary": f"{node_payload['id']} approved by deterministic review handler",
@@ -473,6 +513,7 @@ class DRGExecutor:
                 "agent": node_payload.get("agent"),
                 "status": "success",
                 "deploy": {"success": True, "environment": "local-deterministic"},
+                "execution_mode": "mock",
                 "completed_at": utc_now(),
                 "summary": f"{node_payload['id']} produced deterministic deploy evidence",
             },
@@ -754,11 +795,22 @@ class DRGExecutor:
                 "node_type": node_payload["type"],
                 "agent": node_payload.get("agent"),
                 "status": "success",
+                "execution_mode": "mock",
                 "completed_at": utc_now(),
                 "summary": f"{node_payload['id']} completed by deterministic executor",
             },
         )
         return path
+
+    def missing_handler_result(self, node_payload: dict[str, Any]) -> NodeExecutionResult:
+        """在 Harness 入口缺少真实 Handler 时返回失败，阻止流程伪造成功 Artifact。"""
+        node_id = str(node_payload.get("id", "unknown"))
+        agent = str(node_payload.get("agent", "unassigned"))
+        message = (
+            f"no real handler registered for node {node_id} (agent={agent}); "
+            "harness execution is fail-closed"
+        )
+        return NodeExecutionResult(status="failed", summary=message, error=message)
 
     def complete_node(self, state: RunState, node_payload: dict[str, Any], result: NodeExecutionResult) -> None:
         node_id = node_payload["id"]

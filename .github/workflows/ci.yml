@@ -1,0 +1,32 @@
+# Agent-Harness 工程门禁：先检查中文职责注释，再运行跨平台 GraphFlow/Harness 测试。
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.12"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install package
+        run: python -m pip install --no-deps -e .
+      - name: Check Chinese Harness comments
+        run: python -B scripts/check_harness_comments.py
+      - name: Run unit and integration tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+      # 阶段 6 发布门禁：验证 Golden Cases/P0 覆盖，并阻断 Harness 正式入口的宿主 Shell 或 Fake Runtime 旁路。
+      - name: Check Harness release gate
+        run: python -B scripts/check_harness_release_gate.py

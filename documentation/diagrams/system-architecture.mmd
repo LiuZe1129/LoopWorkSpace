@@ -1,0 +1,81 @@
+flowchart TB
+    U[用户 / 产品负责人]
+
+    subgraph SPEC["Spec 规约层"]
+        CS[ChangeSpec 草稿]
+        PS[ProductSpec]
+        SNAP[Published SpecSnapshot<br/>不可变版本 + 内容哈希]
+        CS --> SNAP
+        PS --> SNAP
+    end
+
+    subgraph GRAPH["GraphFlow 控制平面"]
+        RUN[GraphRun]
+        PLAN[ExecutionPlan]
+        DRG[ExecutionGraph / DRG]
+        EXEC[DRGExecutor]
+        FLOW[规划 → 架构 → 设计 → 实现<br/>测试 → 验收 → 评审 → 交付]
+        RUN --> PLAN --> DRG --> EXEC --> FLOW
+    end
+
+    subgraph ADAPTER["GraphFlow / Harness 边界"]
+        HANDLER[HarnessNodeHandler]
+        TASK[Task Contract]
+        RESULT[TaskResult]
+        HANDLER --> TASK
+        RESULT --> HANDLER
+    end
+
+    subgraph HARNESS["Task-centric Harness 执行平面"]
+        CTRL[HarnessController<br/>Execution / Attempt / 状态机]
+        PROFILE[AgentProfile<br/>Prompt / Model / Tools / Version]
+        CTX[ContextManager]
+        LOOP[AgentLoop]
+        MODEL[ModelGateway]
+        ROUTER[ToolRouter]
+        POLICY[PolicyEngine]
+        LEDGER[幂等 Tool Ledger]
+        VALIDATOR[DeterministicValidator]
+
+        CTRL --> CTX
+        PROFILE --> CTX
+        CTX --> LOOP
+        LOOP <--> MODEL
+        LOOP --> ROUTER
+        ROUTER --> POLICY
+        ROUTER --> LEDGER
+        LOOP --> VALIDATOR
+    end
+
+    subgraph ISOLATION["隔离执行与源码回写"]
+        WORKSPACE[Workspace Snapshot]
+        DOCKER[Docker Sandbox]
+        TOOLS[read_file / write_file / shell_exec]
+        CHANGESET[ChangeSet]
+        WRITEBACK[验收后原子回写]
+
+        WORKSPACE --> DOCKER --> TOOLS
+        DOCKER --> CHANGESET --> WRITEBACK
+    end
+
+    subgraph GOVERNANCE["治理与可观测性"]
+        BUDGET[轮次 / Token / Tool / 时间 / 成本预算]
+        CHECKPOINT[Checkpoint / 暂停 / 恢复]
+        EVENT[Event / Timeline / Metrics]
+        EVIDENCE[Artifact / Validation / Evidence]
+        GOLDEN[Golden Cases / 版本对比 / 发布门禁]
+    end
+
+    U --> CS
+    SNAP --> RUN
+    EXEC --> HANDLER
+    TASK --> CTRL
+    ROUTER --> DOCKER
+    VALIDATOR --> CHANGESET
+    WRITEBACK --> RESULT
+    CTRL --> CHECKPOINT
+    CTRL --> EVENT
+    RESULT --> EVIDENCE
+    EVIDENCE --> EXEC
+    GOLDEN --> HARNESS
+

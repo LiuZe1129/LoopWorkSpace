@@ -20,7 +20,9 @@ from scheduler.design_spec import (
 )
 from scheduler.drg import compile_execution_graph, validate_execution_graph_payload
 from scheduler.evidence import generate_evidence_manifest, validate_evidence_manifest_payload
-from scheduler.executor import DRGExecutor, NodeExecutionResult
+from scheduler.events import EventLogger
+from scheduler.executor import DRGExecutor as RuntimeDRGExecutor, NodeExecutionResult
+from scheduler.gates import run_check
 from scheduler.graph import GRAPHFLOW_EDGES
 from scheduler.intent_audit import INTENT_INCOMPLETE, INTENT_PRESENT, NO_INTENT_DOCS, run_intent_audit
 from scheduler.legacy import convert_task_card_to_change_spec
@@ -29,6 +31,7 @@ from scheduler.plans import generate_execution_plan, is_rich_design_spec, refine
 from scheduler.retry import RetryManager, downstream_nodes
 from scheduler.retry_policy import RetryPolicy, load_retry_policy
 from scheduler.runs import GraphRunStore
+from scheduler.runs import relative_to_root
 from scheduler.schema import validate_ui_design_contract
 from scheduler.spec_flow import (
     approve_revision_draft,
@@ -40,11 +43,20 @@ from scheduler.spec_flow import (
 )
 from scheduler.spec_change import validate_spec_change_request_payload
 from scheduler.specs import calculate_content_hash, load_spec_snapshot
+from scheduler.state import DoneItem, TaskCard
 from scheduler.supersede import SupersedeManager
 from scheduler.task_card import load_task_card
 from scheduler.tool_contracts import generate_tool_contract_report, validate_tool_contracts
 from scheduler.transition import TransitionValidator
 from scheduler.ui_design import validate_product_shape
+
+
+class DRGExecutor(RuntimeDRGExecutor):
+    """测试专用 GraphFlow Executor，在 Harness 接入前显式启用确定性 mock 流程。"""
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("execution_mode", "mock")
+        super().__init__(*args, **kwargs)
 
 
 TASK_CARD = """---
@@ -439,7 +451,7 @@ class SchedulerRuntimeTests(unittest.TestCase):
                 "run-smoke",
             ]
 
-            with patch("sys.argv", argv), redirect_stdout(StringIO()):
+            with patch("sys.argv", argv), patch("scheduler.main.DRGExecutor", DRGExecutor), redirect_stdout(StringIO()):
                 exit_code = scheduler_main()
 
             run_dir = root / ".loop" / "runs" / "run-smoke"
@@ -451,6 +463,85 @@ class SchedulerRuntimeTests(unittest.TestCase):
             self.assertTrue((run_dir / "evidence-manifest.json").is_file())
             state = json.loads((run_dir / "run-state.json").read_text(encoding="utf-8"))
             self.assertEqual(state["status"], "DONE")
+
+    def test_harness_mode_fails_closed_without_real_handler(self) -> None:
+        """验证正式 Harness 入口缺少 Handler 时关闭失败，不产生虚假成功产物。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            snapshot_path = write_snapshot(root)
+            GraphRunStore(root).create(snapshot_path, run_id="run-001")
+            generate_execution_plan(root, "run-001")
+            compile_execution_graph(root, "run-001")
+
+            result = RuntimeDRGExecutor(
+                root,
+                retry_policy=RetryPolicy(max_retries=0),
+                execution_mode="harness",
+            ).run("run-001")
+
+            self.assertEqual(result.status, "ESCALATED")
+            state = GraphRunStore(root).read_state("run-001")
+            self.assertIn("fail-closed", state.last_error or "")
+            self.assertFalse((GraphRunStore(root).run_dir("run-001") / "artifacts" / "spec_binding_node.json").exists())
+
+    def test_host_shell_is_blocked_unless_mock_mode_explicitly_allows_it(self) -> None:
+        """验证 Gate 进入 Harness Sandbox 前，正式流程无法执行宿主 Shell。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            item = DoneItem(id="acc-shell", check="command-that-must-not-run", expect="exitcode:0")
+
+            result = run_check(root, item)
+
+            self.assertFalse(result.passed)
+            self.assertEqual(result.exit_code, 126)
+            self.assertIn("sandbox required", result.actual)
+
+    def test_graph_run_rejects_unsafe_run_id(self) -> None:
+        """验证 GraphRun 标识进入 Harness 持久化目录前会拒绝路径穿越。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            snapshot_path = write_snapshot(root)
+
+            with self.assertRaises(ValueError):
+                GraphRunStore(root).create(snapshot_path, run_id="../escape")
+
+            with self.assertRaises(ValueError):
+                GraphRunStore(root).create(snapshot_path, run_id="CON")
+
+            self.assertFalse((root / ".loop" / "escape").exists())
+
+    def test_relative_to_root_rejects_outside_path(self) -> None:
+        """验证 Artifact/Evidence 引用不能指向 GraphFlow/Harness 工作区之外。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "repo"
+            root.mkdir()
+            outside = root.parent / "outside.txt"
+
+            with self.assertRaises(ValueError):
+                relative_to_root(root, outside)
+
+    def test_event_logger_rejects_unsafe_run_id(self) -> None:
+        """验证事件时间线在写入阶段拒绝越界 GraphRun 标识。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+
+            with self.assertRaises(ValueError):
+                EventLogger(root).append_run("../escape", "test", {})
+
+    def test_legacy_artifact_manager_rejects_unsafe_task_path_segments(self) -> None:
+        """验证 Legacy Artifact 在迁移到 Harness 前仍受统一路径安全边界保护。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            task = TaskCard(
+                path=root / "task.md",
+                raw_frontmatter={"id": "../task", "project": "demo", "round": 1},
+                title="unsafe",
+                done_items=[],
+                body="",
+            )
+
+            with self.assertRaises(ValueError):
+                ArtifactManager(root).artifact_path(task, "result.json")
 
     def test_graph_run_rejects_unpublished_snapshot(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1710,10 +1801,11 @@ class SchedulerRuntimeTests(unittest.TestCase):
 
             # Manually append 3 spec_rebound events to simulate 3 prior rebinds
             events_path = root / ".loop" / "runs" / "run-001" / "events.jsonl"
-            for i in range(3):
-                events_path.open("a", encoding="utf-8").write(
-                    json.dumps({"timestamp": f"2026-09-03T10:00:0{i}+00:00", "type": "spec_rebound", "run_id": "run-001"}) + "\n"
-                )
+            with events_path.open("a", encoding="utf-8") as handle:
+                for i in range(3):
+                    handle.write(
+                        json.dumps({"timestamp": f"2026-09-03T10:00:0{i}+00:00", "type": "spec_rebound", "run_id": "run-001"}) + "\n"
+                    )
 
             v2_payload = spec_snapshot_payload(acceptance_check={"check": "printf ok", "expect": "ok"})
             v2_payload["version"] = 2
@@ -1774,9 +1866,10 @@ class SchedulerRuntimeTests(unittest.TestCase):
 
             # Append a node_started event without a matching terminal event
             events_path = root / ".loop" / "runs" / "run-001" / "events.jsonl"
-            events_path.open("a", encoding="utf-8").write(
-                json.dumps({"timestamp": "2026-09-03T10:00:00+00:00", "type": "node_started", "run_id": "run-001", "node_id": "spec_binding_node"}) + "\n"
-            )
+            with events_path.open("a", encoding="utf-8") as handle:
+                handle.write(
+                    json.dumps({"timestamp": "2026-09-03T10:00:00+00:00", "type": "node_started", "run_id": "run-001", "node_id": "spec_binding_node"}) + "\n"
+                )
 
             result = DRGExecutor(root).run("run-001")
             self.assertEqual(result.status, "FAILED")

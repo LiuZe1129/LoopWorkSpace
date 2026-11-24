@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "case_id": "G-01",
+      "description": "无 Tool 的结构化任务正常完成",
+      "priority": "P1",
+      "mode": "mock",
+      "task": {"scenario": "structured_completion", "budget": {"max_rounds": 3}},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "succeeded", "min_evidence": 1, "required_version_keys": ["agent_profile", "model", "policy", "runtime"]}
+    },
+    {
+      "case_id": "G-02",
+      "description": "读取修改文件并运行测试",
+      "priority": "P1",
+      "mode": "mock",
+      "task": {"scenario": "edit_and_test", "budget": {"max_rounds": 8, "max_tool_calls": 12}},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "succeeded", "min_artifacts": 1, "min_evidence": 2, "validation_status": "passed", "required_version_keys": ["agent_profile", "model", "policy", "runtime"]}
+    },
+    {
+      "case_id": "G-03",
+      "description": "越权读取 workspace 外文件被拒绝",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "path_escape", "path": "../secret.txt"},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "failed", "failure_kind": "policy"}
+    },
+    {
+      "case_id": "G-04",
+      "description": "未授权 Tool 在 Sandbox 执行前被拒绝",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "unauthorized_tool", "tool": "shell_exec"},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "failed", "failure_kind": "policy"}
+    },
+    {
+      "case_id": "G-05",
+      "description": "无限命令超时并终止 Sandbox",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "tool_timeout", "budget": {"max_wall_seconds": 2}},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "timed_out", "failure_kind": "timeout", "max_wall_seconds": 3}
+    },
+    {
+      "case_id": "G-06",
+      "description": "用户取消传播到模型与 Sandbox",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "cancel_active_execution"},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "cancelled", "failure_kind": "cancelled"}
+    },
+    {
+      "case_id": "G-07",
+      "description": "模型连续无效输出后有限失败",
+      "priority": "P1",
+      "mode": "mock",
+      "task": {"scenario": "invalid_model_output", "provider_attempts": 3},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "failed", "failure_kind": "model", "max_rounds": 3}
+    },
+    {
+      "case_id": "G-08",
+      "description": "达到轮次或 Token 上限后停止",
+      "priority": "P1",
+      "mode": "mock",
+      "task": {"scenario": "budget_exhausted", "budget": {"max_rounds": 1, "max_model_tokens": 10}},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "failed", "failure_kind": "budget", "max_rounds": 1, "max_model_tokens": 10}
+    },
+    {
+      "case_id": "G-09",
+      "description": "ToolResult 后崩溃从 Checkpoint 恢复且不重复副作用",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "checkpoint_resume"},
+      "environment": {"sandbox": "fake", "network": "deny", "restart": true},
+      "expected": {"status": "succeeded", "min_evidence": 1}
+    },
+    {
+      "case_id": "G-10",
+      "description": "副作用 started 后状态不明进入人工核对",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "ambiguous_side_effect"},
+      "environment": {"sandbox": "fake", "network": "deny", "restart": true},
+      "expected": {"status": "needs_reconciliation", "failure_kind": "needs_reconciliation"}
+    },
+    {
+      "case_id": "G-11",
+      "description": "模型声称完成但确定性测试失败",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "false_completion"},
+      "environment": {"sandbox": "fake", "network": "deny"},
+      "expected": {"status": "failed", "failure_kind": "validation", "validation_status": "failed"}
+    },
+    {
+      "case_id": "G-12",
+      "description": "Docker Sandbox 不可用且不回退宿主 Shell",
+      "priority": "P0",
+      "mode": "mock",
+      "task": {"scenario": "sandbox_unavailable"},
+      "environment": {"sandbox": "unavailable", "network": "deny"},
+      "expected": {"status": "failed", "failure_kind": "infrastructure"}
+    }
+  ]
+}

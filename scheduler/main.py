@@ -24,6 +24,14 @@ from .tool_contracts import generate_tool_contract_report
 from .transition import TransitionValidator
 
 
+def _build_production_executor(root: Path, retry_policy=None) -> DRGExecutor:
+    """装配正式 GraphFlow→Harness 执行器，位于 CLI execute/smoke 的 Composition Root。"""
+    from harness.runtime_factory import RuntimeFactory
+
+    runtime = RuntimeFactory(root).build()
+    return DRGExecutor(root, retry_policy=retry_policy, harness_handler=runtime.handler)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Loop Engineer GraphFlow runtime prototype")
     parser.add_argument("--root", default=".", help="repository root")
@@ -261,6 +269,7 @@ def main() -> int:
                 print(f"- [{issue.severity}] {issue.code}: {issue.message}{location}")
             return 1
         retry_policy = load_retry_policy((root / args.retry_policy).resolve()) if args.retry_policy else None
+        # smoke-flow 保留为无外部模型依赖的 GraphFlow 自检；正式 execute 必须进入生产 Harness。
         execute_result = DRGExecutor(root, retry_policy=retry_policy).run(state.run_id)
         if execute_result.issues:
             print("Smoke flow failed at execute:")
@@ -409,7 +418,7 @@ def main() -> int:
 
     if args.command == "execute":
         retry_policy = load_retry_policy((root / args.retry_policy).resolve()) if args.retry_policy else None
-        executor = DRGExecutor(root, retry_policy=retry_policy)
+        executor = _build_production_executor(root, retry_policy)
         result = executor.run(args.run_id, max_steps=args.max_steps)
         # V-11: continue if run() returned RUNNING (retry was scheduled but
         # run() returned instead of continuing the while loop)

@@ -51,6 +51,9 @@ class RetryPolicy:
         return int(self.max_retries)
 
     def can_retry(self, state: RunState, node_id: str, node_type: str, reason: str = "") -> bool:
+        # Harness 已完成 Attempt 级分类；不可重试结果必须阻断 GraphFlow 节点级盲目重放。
+        if "harness_non_retryable:" in reason:
+            return False
         if node_type not in self.retryable_node_types:
             return False
         return int(state.retry_count.get(node_id, 0) or 0) < self.max_retries_for(node_id, node_type, reason)

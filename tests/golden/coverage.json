@@ -1,0 +1,29 @@
+{
+  "G-01": ["tests/test_harness_stage2.py::test_model_only_structured_task_flow"],
+  "G-02": ["tests/test_harness_stage5.py::test_validated_task_persists_artifacts_evidence_and_result_ref"],
+  "G-03": ["tests/test_harness_stage3.py::test_workspace_traversal_is_denied_before_ledger"],
+  "G-04": ["tests/test_harness_stage3.py::test_task_permission_overrides_agent_declaration"],
+  "G-05": ["tests/test_harness_stage3.py::test_shell_timeout_terminates_attempt_sandbox"],
+  "G-06": [
+    "tests/test_harness_stage4.py::test_cancel_request_propagates_to_running_sandbox",
+    "tests/test_harness_stage4.py::test_cancel_request_propagates_to_active_model_provider"
+  ],
+  "G-07": ["tests/test_harness_stage4.py::test_model_failure_is_finite"],
+  "G-08": [
+    "tests/test_harness_stage4.py::test_round_budget_stops_loop_without_infinite_model_calls",
+    "tests/test_harness_stage4.py::test_token_usage_is_committed_before_budget_stop"
+  ],
+  "G-09": [
+    "tests/test_harness_stage4.py::test_resume_from_tool_checkpoint_preserves_usage",
+    "tests/test_harness_stage3.py::test_completed_idempotency_key_does_not_repeat_side_effect"
+  ],
+  "G-10": [
+    "tests/test_harness_stage3.py::test_started_ledger_becomes_ambiguous_instead_of_replay",
+    "tests/test_harness_stage4.py::test_reconciler_flags_unfinished_side_effect"
+  ],
+  "G-11": ["tests/test_harness_stage5.py::test_completion_claim_fails_when_file_acceptance_fails"],
+  "G-12": [
+    "tests/test_harness_stage6.py::test_task_runner_maps_sandbox_unavailable_without_host_fallback",
+    "tests/test_harness_stage3.py::test_missing_sandbox_never_falls_back_to_host"
+  ]
+}

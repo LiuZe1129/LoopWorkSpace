@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .events import EventLogger
+from .path_security import resolve_within, safe_child
 from .specs import SpecRef, SpecSnapshot, load_spec_snapshot
 from .state import ValidationIssue, ValidationResult
 
@@ -96,12 +97,19 @@ class RunState:
 
 
 class GraphRunStore:
+    """持久化 GraphFlow 外层 Run，并保存未来 Harness TaskExecution 的关联入口。
+
+    当前阶段仍使用文件存储；所有 run_id 在进入运行目录前必须经过路径边界校验，
+    防止编排层标识突破 Harness/GraphFlow 的授权工作区。
+    """
+
     def __init__(self, root: Path):
-        self.root = root
-        self.runs_dir = root / ".loop" / "runs"
+        self.root = root.resolve()
+        self.runs_dir = resolve_within(self.root, ".loop", "runs")
 
     def run_dir(self, run_id: str) -> Path:
-        return self.runs_dir / run_id
+        """返回受控 Run 目录，位于 GraphRun 标识转换为持久化路径的执行环节。"""
+        return safe_child(self.runs_dir, run_id, "run_id")
 
     def create(self, snapshot_path: Path, run_id: str | None = None) -> RunState:
         snapshot = load_spec_snapshot(snapshot_path)
@@ -292,10 +300,13 @@ def read_json(path: Path) -> dict[str, Any]:
 
 
 def relative_to_root(root: Path, path: Path) -> str:
+    """生成仓库内引用，位于 Artifact/Evidence 写入 GraphFlow 状态之前的安全检查点。"""
+    resolved_root = root.resolve()
+    resolved_path = path.resolve()
     try:
-        return path.resolve().relative_to(root.resolve()).as_posix()
-    except ValueError:
-        return path.resolve().as_posix()
+        return resolved_path.relative_to(resolved_root).as_posix()
+    except ValueError as exc:
+        raise ValueError(f"path is outside repository root: {resolved_path}") from exc
 
 
 def format_issues(prefix: str, issues: list[ValidationIssue]) -> str:

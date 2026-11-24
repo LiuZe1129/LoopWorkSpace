@@ -37,7 +37,28 @@ def evaluate_expect(expect: str, stdout: str, exit_code: int) -> bool:
     return text == expect
 
 
-def run_check(root: Path, item: DoneItem, timeout_seconds: int = 300) -> GateCheckResult:
+def run_check(
+    root: Path,
+    item: DoneItem,
+    timeout_seconds: int = 300,
+    *,
+    allow_host_shell: bool = False,
+) -> GateCheckResult:
+    """执行确定性验收命令。
+
+    该函数位于 GraphFlow Gate 到 Harness Tool/Sandbox 的迁移边界。正式流程默认
+    禁止宿主 Shell；只有测试显式启用 mock 时才保留旧执行路径。
+    """
+    if not allow_host_shell:
+        return GateCheckResult(
+            item.id,
+            item.check,
+            item.expect,
+            "host shell execution disabled; sandbox required",
+            126,
+            False,
+        )
+    # 旧宿主执行仅用于 GraphFlow mock 回归测试；正式 Harness 流程必须改走 Sandbox。
     completed = subprocess.run(
         item.check,
         cwd=root,

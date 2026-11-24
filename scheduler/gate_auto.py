@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from pathlib import Path
+import shlex
 from typing import Any
 
 from .gates import GateCheckResult, run_check
@@ -10,15 +11,30 @@ from .specs import load_spec_snapshot
 from .state import DoneItem
 
 
-def run_gate_checks(root: Path, state: RunState, node_id: str, acceptance_ids: list[str] | None = None) -> list[GateCheckResult]:
+def run_gate_checks(
+    root: Path,
+    state: RunState,
+    node_id: str,
+    acceptance_ids: list[str] | None = None,
+    *,
+    allow_host_shell: bool = False,
+) -> list[GateCheckResult]:
+    """选择并执行节点验收规则，位于 GraphFlow Gate 与 Harness Validator 的衔接环节。
+
+    计划/架构检查仍是安全的确定性检查；涉及 Shell 的验收默认被阻断，后续阶段
+    将由 Validator 生成 ToolCall，并交给 Policy 与 Sandbox 执行。
+    """
+    # 计划闸门只验证 ExecutionPlan 结构，不触发任何外部命令。
     # plan_gate_node: verify execution-plan.json exists and has work_packages
     if node_id == "plan_gate_node":
         return _check_plan_gate(root, state)
 
+    # 架构闸门只验证上游 Artifact，属于 GraphFlow 控制平面的确定性检查。
     # architecture_gate_node: verify architecture_impact_node artifact exists
     if node_id == "architecture_gate_node":
         return _check_architecture_gate(root, state)
 
+    # final/test 节点只负责选择验收规则；正式 Harness 模式不会在宿主执行 Shell。
     # final_gate_node and test nodes: run acceptance shell checks.
     # final_gate_node runs ALL acceptance checks (acceptance_ids=None → all);
     # test nodes require explicit acceptance_ids.
@@ -27,7 +43,7 @@ def run_gate_checks(root: Path, state: RunState, node_id: str, acceptance_ids: l
 
     snapshot = load_spec_snapshot(root / state.bound_spec.snapshot_uri)
     checks = acceptance_done_items(snapshot.payload.get("acceptance_criteria", []) or [], acceptance_ids=acceptance_ids)
-    return [run_check(root, item) for item in checks]
+    return [run_check(root, item, allow_host_shell=allow_host_shell) for item in checks]
 
 
 def _check_plan_gate(root: Path, state: RunState) -> list[GateCheckResult]:
@@ -103,6 +119,49 @@ def acceptance_done_items(items: list[Any], acceptance_ids: list[str] | None = N
             )
         )
     return done_items
+
+
+def build_harness_acceptance(
+    root: Path,
+    state: RunState,
+    node_id: str,
+    acceptance_ids: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    """把 Spec 验收规则转换为 Harness Validator 输入，位于 GraphFlow Gate 到 Sandbox ToolCall 的边界。"""
+    if node_id != "final_gate_node" and not acceptance_ids:
+        return []
+    snapshot = load_spec_snapshot(root / state.bound_spec.snapshot_uri)
+    items = acceptance_done_items(
+        snapshot.payload.get("acceptance_criteria", []) or [],
+        acceptance_ids=acceptance_ids,
+    )
+    converted: list[dict[str, Any]] = []
+    for item in items:
+        try:
+            argv = shlex.split(item.check, posix=True)
+        except ValueError:
+            argv = []
+        # Harness 基础工具只接受 argv；含 Shell 运算符的旧规则必须显式失败，禁止回退宿主 Shell。
+        if not argv or any(token in {"&&", "||", ";", "|", ">", ">>"} for token in argv):
+            converted.append({"id": item.id, "type": "unsupported_shell", "check": item.check})
+            continue
+        acceptance: dict[str, Any] = {"id": item.id, "type": "command", "argv": argv}
+        if item.expect.startswith("exitcode:"):
+            value = item.expect.split(":", 1)[1]
+            if value == "nonzero":
+                acceptance["expected_exit_nonzero"] = True
+            else:
+                acceptance["expected_exit_code"] = int(value)
+        elif item.expect.startswith("contains:"):
+            acceptance["stdout_contains"] = item.expect.split(":", 1)[1]
+        elif item.expect.startswith("regex:"):
+            acceptance["stdout_regex"] = item.expect.split(":", 1)[1]
+        elif item.expect.startswith(">="):
+            acceptance["stdout_min"] = float(item.expect[2:].strip())
+        else:
+            acceptance["stdout_equals"] = item.expect
+        converted.append(acceptance)
+    return converted
 
 
 def serialize_check_results(results: list[GateCheckResult]) -> list[dict[str, Any]]:

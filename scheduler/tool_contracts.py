@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from .events import EventLogger
+from .path_security import resolve_within
 from .runs import GraphRunStore, read_json, write_json
 from .state import ValidationIssue, ValidationResult
 
@@ -195,6 +196,11 @@ def validate_node_result_artifacts(
     node_payload: dict[str, Any],
     artifacts: list[dict[str, str]],
 ) -> ValidationResult:
+    """校验 Handler 返回的 Artifact，位于 Harness TaskResult 回写 GraphFlow 前的边界。
+
+    当前阶段验证类型、声明路径、授权模式和真实文件位置；后续 Harness ArtifactStore
+    会补充内容哈希、版本闭包与 execution_id 关联。
+    """
     result = ValidationResult(ok=True)
     node_id = str(node_payload.get("id", ""))
     node_type = str(node_payload.get("type", ""))
@@ -249,7 +255,19 @@ def validate_node_result_artifacts(
                 f"{agent} is not allowed to write artifact path: {artifact_path}",
                 node_id,
             )
-        if not (root / artifact_path).is_file():
+        # Artifact 声明即使通过字符串模式匹配，也必须再次解析绝对位置，防止符号链接
+        # 或平台路径差异让结果逃逸出 GraphFlow/Harness 授权根目录。
+        try:
+            resolved_artifact_path = resolve_within(root, artifact_path)
+        except ValueError:
+            result.add(
+                "handler_result.unsafe_artifact_path",
+                "critical",
+                f"{node_id} returned artifact outside repository root: {artifact_path}",
+                node_id,
+            )
+            continue
+        if not resolved_artifact_path.is_file():
             result.add(
                 "handler_result.artifact_missing",
                 "critical",
